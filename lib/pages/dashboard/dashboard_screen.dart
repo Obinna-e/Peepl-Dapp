@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:nftapp/Widgets/header.dart';
+import 'package:nftapp/Widgets/sales_chart.dart';
 import 'package:nftapp/constants/style.dart';
 
 class DashboardScreen extends StatelessWidget {
@@ -29,7 +30,7 @@ class DashboardScreen extends StatelessWidget {
                 Expanded(
                   flex: 2,
                   child: Container(
-                    height: 500,
+                    height: 550,
                     decoration: BoxDecoration(
                       color: containerColor,
                       borderRadius: const BorderRadius.all(
@@ -65,21 +66,29 @@ class DashboardScreen extends StatelessWidget {
                             ],
                           ),
                         ),
-                        StatsText(
-                          title: "Artwork Sold",
-                          value: "187",
-                          hasBackground: true,
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Column(
+                            children: [
+                              StatsText(
+                                title: "Artwork Sold",
+                                value: "187",
+                                hasBackground: true,
+                              ),
+                              StatsText(
+                                title: "Artwork Cancel",
+                                value: "5",
+                                hasBackground: false,
+                              ),
+                              StatsText(
+                                title: "Total Earnings",
+                                value: "262 ETH",
+                                hasBackground: true,
+                              ),
+                            ],
+                          ),
                         ),
-                        StatsText(
-                          title: "Artwork Cancel",
-                          value: "5",
-                          hasBackground: false,
-                        ),
-                        StatsText(
-                          title: "Total Earnings",
-                          value: "262 ETH",
-                          hasBackground: true,
-                        ),
+                        LineChartSample2(),
                       ],
                     ),
                   ),
