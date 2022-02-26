@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:nftapp/Widgets/header.dart';
-import 'package:nftapp/Widgets/sales_chart.dart';
+import 'package:nftapp/Widgets/my_feed.dart';
+import 'package:nftapp/Widgets/statistics_details.dart';
 import 'package:nftapp/constants/style.dart';
 
 class DashboardScreen extends StatelessWidget {
@@ -11,125 +12,25 @@ class DashboardScreen extends StatelessWidget {
         padding: const EdgeInsets.all(defaultPadding),
         child: Column(
           children: [
-            Header(),
-            SizedBox(
+            const Header(),
+            const SizedBox(
               height: defaultPadding,
             ),
             Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Expanded(
-                  flex: 5,
-                  child: Container(
-                    height: 500,
-                    color: Colors.white,
-                  ),
-                ),
-                SizedBox(
+                const Expanded(flex: 5, child: MyFeed()),
+                const SizedBox(
                   width: defaultPadding,
                 ),
-                Expanded(
+                const Expanded(
                   flex: 2,
-                  child: Container(
-                    height: 550,
-                    decoration: BoxDecoration(
-                      color: containerColor,
-                      borderRadius: const BorderRadius.all(
-                        Radius.circular(10),
-                      ),
-                    ),
-                    child: Column(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.all(defaultPadding),
-                          child: Row(
-                            children: [
-                              Text(
-                                "Statistics",
-                                style: TextStyle(
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              ),
-                              Spacer(),
-                              InkWell(
-                                onTap: () {},
-                                child: Text(
-                                  "View More",
-                                  style: TextStyle(
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.w500,
-                                    color: viewMore,
-                                    decoration: TextDecoration.underline,
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Column(
-                            children: [
-                              StatsText(
-                                title: "Artwork Sold",
-                                value: "187",
-                                hasBackground: true,
-                              ),
-                              StatsText(
-                                title: "Artwork Cancel",
-                                value: "5",
-                                hasBackground: false,
-                              ),
-                              StatsText(
-                                title: "Total Earnings",
-                                value: "262 ETH",
-                                hasBackground: true,
-                              ),
-                            ],
-                          ),
-                        ),
-                        LineChartSample2(),
-                      ],
-                    ),
-                  ),
+                  child: StatisticsDetails(),
                 ),
               ],
             )
           ],
         ),
-      ),
-    );
-  }
-}
-
-class StatsText extends StatelessWidget {
-  StatsText({
-    Key? key,
-    required this.title,
-    required this.value,
-    required this.hasBackground,
-  }) : super(key: key);
-
-  final String title;
-  final String value;
-  bool hasBackground;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(defaultPadding),
-      decoration: BoxDecoration(
-        color: hasBackground ? innerStatsContainer : containerColor,
-        borderRadius: BorderRadius.all(
-          Radius.circular(10),
-        ),
-      ),
-      child: Row(
-        children: [
-          Text(title),
-          const Spacer(),
-          Text(value),
-        ],
       ),
     );
   }

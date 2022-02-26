@@ -35,16 +35,16 @@ class ConnectWallet extends StatelessWidget {
     return InkWell(
       onTap: () {},
       child: Container(
-        padding: EdgeInsets.all(defaultPadding * 0.75),
-        decoration: BoxDecoration(
+        padding: const EdgeInsets.all(defaultPadding * 0.75),
+        decoration: const BoxDecoration(
           color: callToAction,
-          borderRadius: const BorderRadius.all(
+          borderRadius: BorderRadius.all(
             Radius.circular(10),
           ),
         ),
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: defaultPadding / 2),
-          child: const Text(
+        child: const Padding(
+          padding: EdgeInsets.symmetric(horizontal: defaultPadding / 2),
+          child: Text(
             "Connect Wallet",
             style: TextStyle(),
           ),
@@ -66,10 +66,10 @@ class Notification extends StatelessWidget {
       child: InkWell(
         onTap: () {},
         child: Container(
-          padding: EdgeInsets.all(defaultPadding * 0.75),
-          decoration: BoxDecoration(
+          padding: const EdgeInsets.all(defaultPadding * 0.75),
+          decoration: const BoxDecoration(
             color: containerColor,
-            borderRadius: const BorderRadius.all(
+            borderRadius: BorderRadius.all(
               Radius.circular(10),
             ),
           ),
@@ -91,18 +91,19 @@ class SearchField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextField(
-      decoration: InputDecoration(
+      decoration: const InputDecoration(
           hintText: "Search item, Collections...",
-          hintStyle: const TextStyle(color: Colors.white70),
+          hintStyle: TextStyle(color: Colors.white70),
           prefixIcon: Icon(
             Icons.search_sharp,
             color: Colors.white70,
           ),
           fillColor: containerColor,
+          helperStyle: TextStyle(color: Colors.white70),
           filled: true,
           border: OutlineInputBorder(
               borderSide: BorderSide.none,
-              borderRadius: const BorderRadius.all(Radius.circular(10.0)))),
+              borderRadius: BorderRadius.all(Radius.circular(10.0)))),
     );
   }
 }
