@@ -1,11 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:nftapp/Widgets/home_controller.dart';
 import 'package:nftapp/constants/style.dart';
+import '../pages/vestingPage/vestingPage.dart';
 
-class Header extends StatelessWidget {
-  const Header({
-    Key? key,
-  }) : super(key: key);
+class Header extends StatefulWidget {
+  final String? walletState;
+  final dynamic connectWallet;
+  const Header({Key? key, this.walletState, this.connectWallet})
+      : super(key: key);
 
+  @override
+  State<Header> createState() => _HeaderState();
+}
+
+class _HeaderState extends State<Header> {
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -17,7 +25,10 @@ class Header extends StatelessWidget {
         Row(
           children: [
             Notification(),
-            ConnectWallet(),
+            ConnectWallet(
+              text: widget.walletState,
+              connectWallet: widget.connectWallet,
+            ),
           ],
         )
       ],
@@ -25,15 +36,21 @@ class Header extends StatelessWidget {
   }
 }
 
-class ConnectWallet extends StatelessWidget {
-  const ConnectWallet({
-    Key? key,
-  }) : super(key: key);
+class ConnectWallet extends StatefulWidget {
+  final String? text;
+  final dynamic connectWallet;
+  const ConnectWallet({Key? key, this.text, this.connectWallet})
+      : super(key: key);
 
+  @override
+  State<ConnectWallet> createState() => _ConnectWalletState();
+}
+
+class _ConnectWalletState extends State<ConnectWallet> {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () {},
+      onTap: widget.connectWallet,
       child: Container(
         padding: const EdgeInsets.all(defaultPadding * 0.75),
         decoration: const BoxDecoration(
@@ -42,11 +59,11 @@ class ConnectWallet extends StatelessWidget {
             Radius.circular(10),
           ),
         ),
-        child: const Padding(
+        child: Padding(
           padding: EdgeInsets.symmetric(horizontal: defaultPadding / 2),
           child: Text(
-            "Connect Wallet",
-            style: TextStyle(),
+            widget.text == null ? 'Connect Wallet' : "${widget.text}",
+            style: TextStyle(color: Colors.black),
           ),
         ),
       ),

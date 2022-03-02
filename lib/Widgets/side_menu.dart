@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:nftapp/constants/style.dart';
+import 'package:nftapp/pages/vestingPage/vestingPage.dart';
 
 class SideMenu extends StatelessWidget {
   const SideMenu({
@@ -34,7 +35,14 @@ class SideMenu extends StatelessWidget {
             ),
             DrawerListTile(
               icon: Icons.show_chart_outlined,
-              press: () {},
+              press: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => VestingPage(),
+                  ),
+                );
+              },
             ),
             DrawerListTile(
               icon: Icons.access_time_outlined,
