@@ -54,6 +54,20 @@ class HomeController extends GetxController {
     'function getWithdrawableAmount() public view returns(uint256)',
   ];
 
+  static const FEQUITY_ADDRESS = '0xa9C3a0983709B69574B3941b27feE5671853ccB0';
+
+  ContractERC20? testToken;
+
+  BigInt yourTokenBalance = BigInt.zero;
+
+  getTokenBalance() async {
+    if (testToken == null) {
+      testToken = ContractERC20(FEQUITY_ADDRESS, provider!.getSigner());
+    }
+    yourTokenBalance = await testToken!.balanceOf(currentAddress);
+    update();
+  }
+
   static const TOKENVESTING_ADDRESS =
       '0xB80884f579D862e73cA0BdD6aFEE0D5FeBDF39c7';
 

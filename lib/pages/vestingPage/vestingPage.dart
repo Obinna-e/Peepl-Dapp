@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/state_manager.dart';
 import 'package:nftapp/Widgets/header.dart';
-import 'package:nftapp/Widgets/home_controller.dart';
+import 'package:nftapp/controllers/home_controller.dart';
 import 'package:nftapp/Widgets/side_menu.dart';
 import 'package:nftapp/constants/style.dart';
 
@@ -59,12 +59,12 @@ class VestingPage extends StatelessWidget {
                                   child: Text(
                                       'Withdrawable amount is ${h.withdrawableAmount}')),
                               ElevatedButton(
-                                onPressed: () async => await h
-                                    .computeAmountReleasable(h.vestingId),
-                                child: Text('Get Vested Amount'),
+                                onPressed: () async =>
+                                    await h.getTokenBalance(),
+                                child: Text('Get token Amount'),
                               ),
                               Container(
-                                child: Text('${h.amountReleasable}'),
+                                child: Text('${h.testToken}'),
                               )
                             ],
                           )

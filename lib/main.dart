@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:nftapp/pages/home.dart';
 import 'package:nftapp/pages/vestingPage/vestingPage.dart';
 import 'pages/layout.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -40,7 +41,7 @@ class MyApp extends StatelessWidget {
         canvasColor: const Color(0xFF1b162d),
       ),
       debugShowCheckedModeBanner: false,
-      home: VestingPage(),
+      home: HomeScreen(),
     );
   }
 }

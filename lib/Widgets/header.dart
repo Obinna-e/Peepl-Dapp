@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:nftapp/Widgets/home_controller.dart';
+import 'package:nftapp/controllers/home_controller.dart';
 import 'package:nftapp/constants/style.dart';
 import '../pages/vestingPage/vestingPage.dart';
 
