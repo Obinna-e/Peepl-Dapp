@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:nftapp/Widgets/side_menu.dart';
+import 'package:nftapp/helpers/local_navigator.dart';
 import 'package:nftapp/pages/dashboard/dashboard_screen.dart';
 import '../constants/style.dart';
 
@@ -17,7 +18,7 @@ class LargeScreen extends StatelessWidget {
             child: SideMenu(),
           ),
           Expanded(
-            child: DashboardScreen(),
+            child: localNavigator(),
           ),
         ],
       ),

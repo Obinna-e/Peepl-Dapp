@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:nftapp/Widgets/large_screen.dart';
+import 'package:nftapp/Widgets/side_menu.dart';
 import 'package:nftapp/Widgets/small_screen.dart';
 import 'package:nftapp/Widgets/top_nav.dart';
 import 'package:nftapp/helpers/responsiveness.dart';
@@ -11,10 +12,16 @@ class SiteLayout extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        // appBar: topNavigationBar(context, scaffoldKey),
+        key: scaffoldKey,
+        appBar: ResponsiveWidget.isSmallScreen(context)
+            ? topNavigationBar(context, scaffoldKey)
+            : null,
+        drawer: ResponsiveWidget.isSmallScreen(context)
+            ? Container(width: 100, child: Drawer(child: SideMenu()))
+            : null,
         body: ResponsiveWidget(
-      largeScreen: LargeScreen(),
-      smallScreen: SmallScreen(),
-    ));
+          largeScreen: LargeScreen(),
+          smallScreen: SmallScreen(),
+        ));
   }
 }

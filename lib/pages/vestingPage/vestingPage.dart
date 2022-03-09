@@ -19,10 +19,6 @@ class VestingPage extends StatelessWidget {
         body: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            ConstrainedBox(
-              constraints: const BoxConstraints(minWidth: 50, maxWidth: 100),
-              child: SideMenu(),
-            ),
             Expanded(
               child: SingleChildScrollView(
                 padding: const EdgeInsets.all(defaultPadding),

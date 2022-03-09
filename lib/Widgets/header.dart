@@ -90,9 +90,25 @@ class Notification extends StatelessWidget {
               Radius.circular(10),
             ),
           ),
-          child: const Icon(
-            Icons.notifications_outlined,
-            color: Colors.white70,
+          child: Stack(
+            children: [
+              const Icon(
+                Icons.notifications_outlined,
+                color: Colors.white70,
+              ),
+              Positioned(
+                  top: 2,
+                  left: 12,
+                  child: Container(
+                    width: 12,
+                    height: 12,
+                    padding: EdgeInsets.all(4),
+                    decoration: BoxDecoration(
+                        color: callToAction,
+                        borderRadius: BorderRadius.circular(30),
+                        border: Border.all(color: Colors.white, width: 2)),
+                  ))
+            ],
           ),
         ),
       ),

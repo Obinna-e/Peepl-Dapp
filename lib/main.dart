@@ -1,11 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:nftapp/pages/home.dart';
-import 'package:nftapp/pages/vestingPage/vestingPage.dart';
+import 'package:nftapp/controllers/menu_controller.dart';
+import 'package:nftapp/controllers/navigation_controller.dart';
+import 'package:nftapp/pages/404/error_page.dart';
+import 'package:nftapp/pages/dashboard/dashboard_screen.dart';
+import 'package:nftapp/routing/routes.dart';
+
 import 'pages/layout.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 void main() {
+  Get.put(MenuController());
+  Get.put(NavigationController());
   runApp(const MyApp());
 }
 
@@ -16,7 +22,16 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
-      title: 'Flutter Demo',
+      initialRoute: OverViewPageRoute,
+      unknownRoute: GetPage(
+        name: "/not-found",
+        page: () => PageNotFound(),
+        transition: Transition.fadeIn,
+      ),
+      getPages: [
+        GetPage(name: RootRoute, page: () => SiteLayout()),
+      ],
+      title: 'Normi',
       theme: ThemeData(
         primaryColor: const Color(0xFF292B5E),
         colorScheme: ColorScheme.fromSwatch().copyWith(
@@ -41,7 +56,7 @@ class MyApp extends StatelessWidget {
         canvasColor: const Color(0xFF1b162d),
       ),
       debugShowCheckedModeBanner: false,
-      home: HomeScreen(),
+      home: SiteLayout(),
     );
   }
 }

@@ -1,6 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:nftapp/Widgets/horizontal_menu_item.dart';
+import 'package:nftapp/Widgets/side_menu_item.dart';
+import 'package:nftapp/Widgets/vertical_menu_item.dart';
+import 'package:nftapp/constants/controllers.dart';
 import 'package:nftapp/constants/style.dart';
+import 'package:nftapp/helpers/responsiveness.dart';
+import 'package:nftapp/pages/settings/setting.dart';
 import 'package:nftapp/pages/vestingPage/vestingPage.dart';
+import 'package:nftapp/routing/routes.dart';
 
 class SideMenu extends StatelessWidget {
   const SideMenu({
@@ -9,76 +17,64 @@ class SideMenu extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Drawer(
-      child: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            DrawerHeader(
-              child: Image.asset(
-                "assets/icons/penguin.png",
-                height: 80,
-                width: 80,
+    double _width = MediaQuery.of(context).size.width;
+    return Container(
+      color: containerColor,
+      child: ListView(
+        children: [
+          Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              SizedBox(
+                height: 40,
               ),
-            ),
-            DrawerListTile(
-              icon: Icons.dashboard_outlined,
-              press: () {},
-            ),
-            DrawerListTile(
-              press: () {},
-              icon: Icons.shopping_cart_outlined,
-            ),
-            DrawerListTile(
-              icon: Icons.account_balance_wallet_outlined,
-              press: () {},
-            ),
-            DrawerListTile(
-              icon: Icons.show_chart_outlined,
-              press: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => VestingPage(),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Container(
+                    width: 55,
+                    height: 60,
+                    decoration: const BoxDecoration(
+                      image: const DecorationImage(
+                          image: AssetImage(
+                            "assets/icons/penguin.png",
+                          ),
+                          fit: BoxFit.cover),
+                    ),
                   ),
-                );
-              },
-            ),
-            DrawerListTile(
-              icon: Icons.access_time_outlined,
-              press: () {},
-            ),
-            DrawerListTile(
-              icon: Icons.settings_outlined,
-              press: () {},
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class DrawerListTile extends StatelessWidget {
-  const DrawerListTile({
-    Key? key,
-    required this.icon,
-    required this.press,
-  }) : super(key: key);
-
-  final IconData icon;
-  final VoidCallback press;
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: IconButton(
-        onPressed: press,
-        icon: Icon(icon),
-        color: Colors.white70,
-        focusColor: callToAction,
-        hoverColor: callToAction,
+                  SizedBox(
+                    width: _width / 48,
+                  ),
+                ],
+              ),
+            ],
+          ),
+          SizedBox(
+            height: 40,
+          ),
+          Column(
+            mainAxisSize: MainAxisSize.min,
+            children: sideMenuItems
+                .map((item) => SideMenuItem(
+                      itemName: item.name,
+                      onTap: () {
+                        //Remove later because no logout function
+                        if (item.route == SettingsPageRoute) {
+                          menuController
+                              .changeActiveItemTo(OverViewPageDisplayName);
+                          Get.offAllNamed(SettingsPageRoute);
+                        }
+                        if (!menuController.isActive(item.name)) {
+                          menuController.changeActiveItemTo(item.name);
+                          if (ResponsiveWidget.isSmallScreen(context))
+                            Get.back();
+                          navigationController.navigateTo(item.route);
+                        }
+                      },
+                    ))
+                .toList(),
+          )
+        ],
       ),
     );
   }
