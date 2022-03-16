@@ -22,7 +22,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
-      initialRoute: OverViewPageRoute,
+      initialRoute: timerPageRoute,
       unknownRoute: GetPage(
         name: "/not-found",
         page: () => PageNotFound(),
@@ -56,7 +56,6 @@ class MyApp extends StatelessWidget {
         canvasColor: const Color(0xFF1b162d),
       ),
       debugShowCheckedModeBanner: false,
-      home: SiteLayout(),
     );
   }
 }

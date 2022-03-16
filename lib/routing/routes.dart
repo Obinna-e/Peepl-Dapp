@@ -1,22 +1,22 @@
 const RootRoute = "/";
 
-const OverViewPageDisplayName = "Overview";
-const OverViewPageRoute = "/overview";
+const overviewPageDisplayName = "Overview";
+const overviewPageRoute = "/overview";
 
-const PurchasePageDisplayName = "Purchase";
-const PurchasePageRoute = "/purchase";
+const purchasePageDisplayName = "Purchase";
+const purchasePageRoute = "/purchase";
 
-const WalletPageDisplayName = "Wallet";
-const WalletPageRoute = "/wallet";
+const walletPageDisplayName = "Wallet";
+const walletPageRoute = "/wallet";
 
-const ChartingPageDisplayName = "Chart";
-const ChartingPageRoute = "/chart";
+const chartingPageDisplayName = "Chart";
+const chartingPageRoute = "/chart";
 
-const TimerPageDisplayName = "Timer";
-const TimerPageRoute = "/timer";
+const timerPageDisplayName = "Timer";
+const timerPageRoute = "/timer";
 
-const SettingsPageDisplayName = "Settings";
-const SettingsPageRoute = "/settings";
+const settingsPageDisplayName = "Settings";
+const settingsPageRoute = "/settings";
 
 class MenuItem {
   final String name;
@@ -26,10 +26,10 @@ class MenuItem {
 }
 
 List<MenuItem> sideMenuItems = [
-  MenuItem(OverViewPageDisplayName, OverViewPageRoute),
-  MenuItem(PurchasePageDisplayName, PurchasePageRoute),
-  MenuItem(WalletPageDisplayName, WalletPageRoute),
-  MenuItem(ChartingPageDisplayName, ChartingPageRoute),
-  MenuItem(TimerPageDisplayName, TimerPageRoute),
-  MenuItem(SettingsPageDisplayName, SettingsPageRoute),
+  MenuItem(overviewPageDisplayName, overviewPageRoute),
+  MenuItem(purchasePageDisplayName, purchasePageRoute),
+  MenuItem(walletPageDisplayName, walletPageRoute),
+  MenuItem(chartingPageDisplayName, chartingPageRoute),
+  MenuItem(timerPageDisplayName, timerPageRoute),
+  MenuItem(settingsPageDisplayName, settingsPageRoute),
 ];

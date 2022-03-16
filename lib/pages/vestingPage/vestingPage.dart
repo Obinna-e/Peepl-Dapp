@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/state_manager.dart';
+import 'package:nftapp/Widgets/customText.dart';
 import 'package:nftapp/Widgets/header.dart';
 import 'package:nftapp/controllers/home_controller.dart';
 import 'package:nftapp/Widgets/side_menu.dart';
@@ -10,85 +11,88 @@ import 'package:nftapp/pages/dashboard/dashboard_screen.dart';
 class VestingPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    return Center(
+      child: CustomText(text: 'Vesting Page'),
+    );
     /*
     Todo: Add logic for switching screens in LargeScreen Widget
      */
-    return GetBuilder<HomeController>(
-      init: HomeController(),
-      builder: (h) => Scaffold(
-        body: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Expanded(
-              child: SingleChildScrollView(
-                padding: const EdgeInsets.all(defaultPadding),
-                child: Column(
-                  children: [
-                    Builder(builder: (_) {
-                      var shown = 'h';
-                      if (h.isConnected && h.isInOperatingChain) {
-                        shown = '${h.currentAddress}';
-                      } else if (h.isConnected && !h.isInOperatingChain) {
-                        shown = 'Wrong Chain! Please connect to BSC.';
-                      } else if (h.isEnabled)
-                        return ElevatedButton(
-                          onPressed: () async => await h.connect(),
-                          child: Text('Connect'),
-                        );
-                      else
-                        shown = 'Your browser is not Supported';
+    // return GetBuilder<HomeController>(
+    //   // init: HomeController(),
+    //   builder: (h) => Scaffold(
+    //     body: Row(
+    //       crossAxisAlignment: CrossAxisAlignment.start,
+    //       children: [
+    //         Expanded(
+    //           child: SingleChildScrollView(
+    //             padding: const EdgeInsets.all(defaultPadding),
+    //             child: Column(
+    //               children: [
+    //                 Builder(builder: (_) {
+    //                   var shown = 'h';
+    //                   if (h.isConnected && h.isInOperatingChain) {
+    //                     shown = '${h.currentAddress}';
+    //                   } else if (h.isConnected && !h.isInOperatingChain) {
+    //                     shown = 'Wrong Chain! Please connect to BSC.';
+    //                   } else if (h.isEnabled)
+    //                     return ElevatedButton(
+    //                       onPressed: () async => await h.connect(),
+    //                       child: Text('Connect'),
+    //                     );
+    //                   else
+    //                     shown = 'Your browser is not Supported';
 
-                      return Text(shown);
-                    }),
-                    h.isConnected && h.isInOperatingChain
-                        ? Column(
-                            children: [
-                              ElevatedButton(
-                                onPressed: () async =>
-                                    await h.getVestingContractInformation(),
-                                child: Text('Get Vesting ID'),
-                              ),
-                              Container(
-                                child: Text('Amount is ${h.vestingId}'),
-                              ),
-                              Container(
-                                  child: Text(
-                                      'Withdrawable amount is ${h.withdrawableAmount}')),
-                              ElevatedButton(
-                                onPressed: () async =>
-                                    await h.getTokenBalance(),
-                                child: Text('Get token Amount'),
-                              ),
-                              Container(
-                                child: Text('${h.testToken}'),
-                              )
-                            ],
-                          )
-                        : const SizedBox(
-                            height: defaultPadding,
-                          ),
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Expanded(
-                          child: Container(
-                            decoration: const BoxDecoration(
-                              color: containerColor,
-                              borderRadius: BorderRadius.all(
-                                Radius.circular(10),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
+    //                   return Text(shown);
+    //                 }),
+    //                 h.isConnected && h.isInOperatingChain
+    //                     ? Column(
+    //                         children: [
+    //                           ElevatedButton(
+    //                             onPressed: () async =>
+    //                                 await h.getVestingContractInformation(),
+    //                             child: Text('Get Vesting ID'),
+    //                           ),
+    //                           Container(
+    //                             child: Text('Amount is ${h.vestingId}'),
+    //                           ),
+    //                           Container(
+    //                               child: Text(
+    //                                   'Withdrawable amount is ${h.withdrawableAmount}')),
+    //                           ElevatedButton(
+    //                             onPressed: () async =>
+    //                                 await h.getTokenBalance(),
+    //                             child: Text('Get token Amount'),
+    //                           ),
+    //                           Container(
+    //                             child: Text('${h.testToken}'),
+    //                           )
+    //                         ],
+    //                       )
+    //                     : const SizedBox(
+    //                         height: defaultPadding,
+    //                       ),
+    //                 Row(
+    //                   crossAxisAlignment: CrossAxisAlignment.start,
+    //                   children: [
+    //                     Expanded(
+    //                       child: Container(
+    //                         decoration: const BoxDecoration(
+    //                           color: containerColor,
+    //                           borderRadius: BorderRadius.all(
+    //                             Radius.circular(10),
+    //                           ),
+    //                         ),
+    //                       ),
+    //                     ),
+    //                   ],
+    //                 ),
+    //               ],
+    //             ),
+    //           ),
+    //         ),
+    //       ],
+    //     ),
+    //   ),
+    // );
   }
 }

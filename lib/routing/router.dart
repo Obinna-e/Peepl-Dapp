@@ -9,17 +9,17 @@ import 'package:nftapp/routing/routes.dart';
 
 Route<dynamic> generateRoute(RouteSettings settings) {
   switch (settings.name) {
-    case OverViewPageRoute:
+    case overviewPageRoute:
       return _getPageRoute(DashboardScreen());
-    case PurchasePageRoute:
+    case purchasePageRoute:
       return _getPageRoute(PurchasePage());
-    case WalletPageRoute:
+    case walletPageRoute:
       return _getPageRoute(WalletPage());
-    case ChartingPageRoute:
+    case chartingPageRoute:
       return _getPageRoute(ChartsPage());
-    case TimerPageRoute:
+    case timerPageRoute:
       return _getPageRoute(VestingPage());
-    case SettingsPageRoute:
+    case settingsPageRoute:
       return _getPageRoute(SettingsPage());
     default:
       return _getPageRoute(DashboardScreen());

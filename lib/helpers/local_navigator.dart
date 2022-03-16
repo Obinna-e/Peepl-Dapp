@@ -5,6 +5,7 @@ import 'package:nftapp/routing/routes.dart';
 
 Navigator localNavigator() => Navigator(
       key: navigationController.navigationKey,
-      initialRoute: OverViewPageRoute,
+      //TODO Change back to overviewpage
+      initialRoute: timerPageRoute,
       onGenerateRoute: generateRoute,
     );

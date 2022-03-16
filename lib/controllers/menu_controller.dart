@@ -6,7 +6,7 @@ import 'package:nftapp/routing/routes.dart';
 class MenuController extends GetxController {
   static MenuController instance = Get.find();
 
-  var activeItem = OverViewPageDisplayName.obs;
+  var activeItem = overviewPageDisplayName.obs;
   var hoverItem = "".obs;
 
   changeActiveItemTo(String itemName) {
@@ -23,17 +23,17 @@ class MenuController extends GetxController {
 
   Widget returnIconFor(String itemName) {
     switch (itemName) {
-      case OverViewPageDisplayName:
+      case overviewPageDisplayName:
         return _customIcon(Icons.dashboard_outlined, itemName);
-      case PurchasePageDisplayName:
+      case purchasePageDisplayName:
         return _customIcon(Icons.shopping_cart_outlined, itemName);
-      case WalletPageDisplayName:
+      case walletPageDisplayName:
         return _customIcon(Icons.account_balance_wallet_outlined, itemName);
-      case ChartingPageDisplayName:
+      case chartingPageDisplayName:
         return _customIcon(Icons.show_chart_outlined, itemName);
-      case TimerPageDisplayName:
+      case timerPageDisplayName:
         return _customIcon(Icons.access_time_outlined, itemName);
-      case SettingsPageDisplayName:
+      case settingsPageDisplayName:
         return _customIcon(Icons.settings_outlined, itemName);
       default:
         return _customIcon(Icons.settings_outlined, itemName);

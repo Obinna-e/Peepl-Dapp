@@ -59,10 +59,10 @@ class SideMenu extends StatelessWidget {
                       itemName: item.name,
                       onTap: () {
                         //Remove later because no logout function
-                        if (item.route == SettingsPageRoute) {
+                        if (item.route == settingsPageRoute) {
                           menuController
-                              .changeActiveItemTo(OverViewPageDisplayName);
-                          Get.offAllNamed(SettingsPageRoute);
+                              .changeActiveItemTo(overviewPageDisplayName);
+                          Get.offAllNamed(settingsPageRoute);
                         }
                         if (!menuController.isActive(item.name)) {
                           menuController.changeActiveItemTo(item.name);
