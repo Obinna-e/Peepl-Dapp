@@ -39,6 +39,8 @@ dependencies:
   like_button: ^2.0.4
   flutter_web3: ^2.1.9
   get: ^4.6.1
+  intl: ^0.17.0
+  decimal: ^1.1.0
   
 
 dev_dependencies:

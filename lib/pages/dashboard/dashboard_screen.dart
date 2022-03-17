@@ -3,6 +3,7 @@ import 'package:nftapp/Widgets/header.dart';
 import 'package:nftapp/Widgets/my_feed.dart';
 import 'package:nftapp/Widgets/statistics_details.dart';
 import 'package:nftapp/constants/style.dart';
+import 'package:nftapp/helpers/abi.dart';
 
 class DashboardScreen extends StatelessWidget {
   @override
@@ -28,7 +29,9 @@ class DashboardScreen extends StatelessWidget {
                   child: StatisticsDetails(),
                 ),
               ],
-            )
+            ),
+
+            ElevatedButton(onPressed: showTrue, child: Text('show human'),),
           ],
         ),
       ),
