@@ -30,8 +30,6 @@ class DashboardScreen extends StatelessWidget {
                 ),
               ],
             ),
-
-            ElevatedButton(onPressed: showTrue, child: Text('show human'),),
           ],
         ),
       ),
