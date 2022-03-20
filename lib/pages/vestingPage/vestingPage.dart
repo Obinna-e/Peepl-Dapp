@@ -1,3 +1,4 @@
+import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:get/state_manager.dart';
 import 'package:nftapp/Widgets/customText.dart';
@@ -31,8 +32,12 @@ class VestingPage extends StatelessWidget {
                     child: Padding(
                       padding: const EdgeInsets.all(defaultPadding),
                       child: Container(
-                        height: height * 0.5,
-                        color: containerColor,
+                        height: height * 0.7,
+                        decoration: BoxDecoration(
+                          color: containerColor,
+                          borderRadius: BorderRadius.circular(10)
+                        ),
+                        
                         child: Column(
                           children: [
                             Row(
@@ -40,34 +45,34 @@ class VestingPage extends StatelessWidget {
                                 Padding(
                                   padding: const EdgeInsets.all(defaultPadding),
                                   child: Column(
-                                    children: [
+                                    children: const [
                                       Padding(
-                                        padding: const EdgeInsets.all(8.0),
+                                        padding: EdgeInsets.all(8.0),
                                         child: CustomText(text: 'Peepl'),
                                       ),
                                       Padding(
-                                        padding: const EdgeInsets.all(8.0),
+                                        padding: EdgeInsets.all(8.0),
                                         child: CustomText(text: 'No Fees'),
                                       ),
                                     ],
                                   ),
                                 ),
                                 Spacer(),
-                                Padding(
-                                  padding: const EdgeInsets.all(defaultPadding),
+                                const Padding(
+                                  padding: EdgeInsets.all(defaultPadding),
                                   child: CustomText(
                                     text: 'Peepl Logo',
                                   ),
                                 ),
                               ],
                             ),
-                            Padding(
-                              padding: const EdgeInsets.all(defaultPadding),
+                            const Padding(
+                              padding: EdgeInsets.all(defaultPadding),
                               child: Divider(
                                 thickness: 3,
                               ),
                             ),
-                            VestingDetails(
+                            const VestingDetails(
                               vestingDetails: 'Vested',
                               amount: '\$5000',
                             ),
@@ -92,9 +97,59 @@ class VestingPage extends StatelessWidget {
                   ),
                   Expanded(
                     child: Container(
-                      height: height * 0.5,
-                      color: containerColor,
-                      child: Column(children: [CustomText(text: 'Show')]),
+                      padding: const EdgeInsets.all(defaultPadding),
+                      height: height * 0.7,
+                      decoration: const BoxDecoration(
+                        color: containerColor,
+                        borderRadius: BorderRadius.all(Radius.circular(10))
+                      ),
+                      child: Column(children: [ Container(
+                        height: 300,
+                        width: 300,
+                        decoration: BoxDecoration(
+                          color: Colors.grey[900],
+                          shape: BoxShape.circle,
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(10),
+                          child: Stack(
+                            children: [ SizedBox(
+                              height: 300,
+                              child: PieChart(PieChartData(sectionsSpace: 20,sections: [PieChartSectionData(color: Colors.lightBlue[100], showTitle: false, radius: 10), PieChartSectionData(color: Colors.purple[900], showTitle: false, radius: 10),PieChartSectionData(color: Colors.lightGreen[400], showTitle: false, radius: 10),],),),
+                            ),
+
+                            Positioned(
+                              left: 25,
+                              top: 25,
+
+                              child: Container(
+                                height: 230,
+                                width: 230,
+                                decoration: BoxDecoration(color: Colors.grey[850],
+                                shape: BoxShape.circle),
+
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: CustomText(text: 'Wallet Value'),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: CustomText(text: '400'),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: CustomText(text: 'USD'),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            )
+                          ],),
+                        ),
+                      )]),
                     ),
                   ),
                 ],
