@@ -7,6 +7,7 @@ import 'package:nftapp/controllers/home_controller.dart';
 import 'package:nftapp/Widgets/side_menu.dart';
 import 'package:nftapp/constants/style.dart';
 import 'package:get/utils.dart';
+import 'dart:math' as math;
 
 import 'package:nftapp/pages/dashboard/dashboard_screen.dart';
 
@@ -24,6 +25,110 @@ class VestingPage extends StatelessWidget {
         body: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            Padding(
+              padding: const EdgeInsets.only(left: defaultPadding, right: defaultPadding),
+              child: Row(
+                children: [
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(children:[
+                Icon(Icons.dashboard_outlined, color: light, size: 30),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: CustomText(text: 'Dashboard', size: 35,),
+              ),],),
+              Row(
+                children: [
+                  ElevatedButton(onPressed: () {}, child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Icon(Icons.account_balance_wallet, color: Colors.yellow[700],), Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: CustomText(text: 'Schedule ID: '),
+                      ), Icon(Icons.arrow_drop_down),
+                    ],
+                  ),
+                  style: ElevatedButton.styleFrom(
+                    primary: containerColor,
+                  ),),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 8.0),
+                    child: ElevatedButton(onPressed: () {}, child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Transform.rotate(
+                          angle: 180 * math.pi / 100,
+                          child: Icon(Icons.send, color: Colors.green[200],)), const Padding(
+                          padding: EdgeInsets.all(8.0),
+                          child: CustomText(text: 'Connect Wallet'),
+                        ),
+                      ],
+                    ),
+                    style: ElevatedButton.styleFrom(
+                      primary: containerColor,
+                    ),),
+                  ),
+                ],
+              ),],),
+              Spacer(),
+              Column(children: [
+                Row(children: [
+                   IconButton(onPressed: () {}, icon: Icon(Icons.search, color: Colors.grey[600],),),
+              IconButton(onPressed: () {},icon: Icon(Icons.refresh_outlined, color: Colors.grey[600],),),
+                ],),
+                Row(
+                  children: [
+
+                InkWell(
+                  onTap: () {},
+                  child: Container(
+                    width: 105,
+                    padding: EdgeInsets.all(8.0),
+                    
+                    decoration: BoxDecoration(
+                      color: containerColor,
+                      borderRadius: BorderRadius.circular(10.0),
+                      border: Border.all(color: Colors.green),
+                    ),
+                    child: Center(child: Row(
+                      children: [
+                        Transform.rotate(
+                          angle: 180 * math.pi / 250,
+                          child: Icon(Icons.arrow_forward_rounded, color: Colors.green[200],)),
+                        CustomText(text: 'Recieve', color: Colors.green[200],),
+                      ],
+                    ),),
+                  ),
+                ),
+                const SizedBox(
+                  width: 20,
+                ),
+                
+                InkWell(
+                  onTap: () {},
+                  child: Container(
+                    width: 90,
+                    padding: const EdgeInsets.all(8.0),
+                    
+                    decoration: BoxDecoration(
+                      color: Colors.deepPurple[400],
+                      borderRadius: BorderRadius.circular(10.0),
+                    ),
+                    child: Center(child: Row(
+                      children: [
+                        Transform.rotate(
+                          angle: 180 * math.pi / 100,
+                          child: const Icon(Icons.arrow_forward_rounded, color: light,)),
+                        const CustomText(text: 'Send'),
+                      ],
+                    )),
+                  ),
+                ),],),
+
+             
+                ],),],)
+            ),
             Padding(
               padding: const EdgeInsets.all(defaultPadding),
               child: Row(
@@ -57,7 +162,7 @@ class VestingPage extends StatelessWidget {
                                     ],
                                   ),
                                 ),
-                                Spacer(),
+                                const Spacer(),
                                 const Padding(
                                   padding: EdgeInsets.all(defaultPadding),
                                   child: CustomText(
@@ -133,15 +238,15 @@ class VestingPage extends StatelessWidget {
                                   children: [
                                     Padding(
                                       padding: const EdgeInsets.all(8.0),
-                                      child: CustomText(text: 'Wallet Value'),
+                                      child: CustomText2(text: 'Vested Amount'),
                                     ),
                                     Padding(
                                       padding: const EdgeInsets.all(8.0),
-                                      child: CustomText(text: '400'),
+                                      child: CustomText(text: '400', size: 40,),
                                     ),
                                     Padding(
                                       padding: const EdgeInsets.all(8.0),
-                                      child: CustomText(text: 'USD'),
+                                      child: CustomText2(text: 'USD'),
                                     ),
                                   ],
                                 ),
