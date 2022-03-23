@@ -11,7 +11,16 @@ import 'dart:math' as math;
 
 import 'package:nftapp/pages/dashboard/dashboard_screen.dart';
 
-class VestingPage extends StatelessWidget {
+class VestingPage extends StatefulWidget {
+  
+  @override
+  State<VestingPage> createState() => _VestingPageState();
+}
+
+class _VestingPageState extends State<VestingPage> {
+  final mockDropdown = ['1', 'ID 2', 'ID 3', 'ID 4',];
+  String? value;
+
   @override
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
@@ -19,6 +28,8 @@ class VestingPage extends StatelessWidget {
     /*
     Todo: Add logic for switching screens in LargeScreen Widget
      */
+
+    DropdownMenuItem<String> buildMenuItem(String item) => DropdownMenuItem(value: item, child: CustomText(text: item),);
     return GetBuilder<HomeController>(
       init: HomeController(),
       builder: (h) => Scaffold(
@@ -40,18 +51,46 @@ class VestingPage extends StatelessWidget {
               ),],),
               Row(
                 children: [
-                  ElevatedButton(onPressed: () {}, child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Icon(Icons.account_balance_wallet, color: Colors.yellow[700],), Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: CustomText(text: 'Schedule ID: '),
-                      ), Icon(Icons.arrow_drop_down),
-                    ],
-                  ),
-                  style: ElevatedButton.styleFrom(
-                    primary: containerColor,
-                  ),),
+                 
+                 
+                    
+                    
+                        
+                        Container(
+                          height: 35,
+                          width: 400,
+                          color: containerColor,
+                          child: DropdownButtonFormField<String>(
+                       decoration: InputDecoration(
+                         isDense: true,
+                         prefixIcon: 
+                             
+                               
+                                 Row(
+                                   children: [
+                                     Icon(Icons.account_balance_wallet, color: Colors.yellow[700],),
+                                   Padding(
+                                     padding: const EdgeInsets.only(left: 8.0),
+                                     child: CustomText(text: 'Schedule ID: '),
+                                   )],
+                                   
+                                 ),
+                               
+                             
+
+                             prefixIconConstraints: BoxConstraints(maxWidth: 150,),
+                             
+                           
+                         
+                         
+                       ),
+                          value: value,
+                          items: mockDropdown.map(buildMenuItem).toList(), onChanged: (value) => setState(() => this.value = value) ),
+                        ),
+                    
+                 
+
+                  
                   Padding(
                     padding: const EdgeInsets.only(left: 8.0),
                     child: ElevatedButton(onPressed: () {}, child: Row(
@@ -246,7 +285,7 @@ class VestingPage extends StatelessWidget {
                                     ),
                                     Padding(
                                       padding: const EdgeInsets.all(8.0),
-                                      child: CustomText2(text: 'USD'),
+                                      child: CustomText2(text: 'PPL'),
                                     ),
                                   ],
                                 ),
