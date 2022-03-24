@@ -50,12 +50,7 @@ class _VestingPageState extends State<VestingPage> {
                 child: CustomText(text: 'Dashboard', size: 35,),
               ),],),
               Row(
-                children: [
-                 
-                 
-                    
-                    
-                        
+                children: [        
                         Container(
                           height: 35,
                           width: 400,
@@ -123,7 +118,7 @@ class _VestingPageState extends State<VestingPage> {
                   onTap: () {},
                   child: Container(
                     width: 105,
-                    padding: EdgeInsets.all(8.0),
+                    padding: EdgeInsets.all(6.0),
                     
                     decoration: BoxDecoration(
                       color: containerColor,
@@ -148,7 +143,7 @@ class _VestingPageState extends State<VestingPage> {
                   onTap: () {},
                   child: Container(
                     width: 90,
-                    padding: const EdgeInsets.all(8.0),
+                    padding: const EdgeInsets.all(6.0),
                     
                     decoration: BoxDecoration(
                       color: Colors.deepPurple[400],
@@ -171,78 +166,14 @@ class _VestingPageState extends State<VestingPage> {
             Padding(
               padding: const EdgeInsets.all(defaultPadding),
               child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Expanded(
-                    child: Padding(
-                      padding: const EdgeInsets.all(defaultPadding),
-                      child: Container(
-                        height: height * 0.7,
-                        decoration: BoxDecoration(
-                          color: containerColor,
-                          borderRadius: BorderRadius.circular(10)
-                        ),
-                        
-                        child: Column(
-                          children: [
-                            Row(
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.all(defaultPadding),
-                                  child: Column(
-                                    children: const [
-                                      Padding(
-                                        padding: EdgeInsets.all(8.0),
-                                        child: CustomText(text: 'Peepl'),
-                                      ),
-                                      Padding(
-                                        padding: EdgeInsets.all(8.0),
-                                        child: CustomText(text: 'No Fees'),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                const Spacer(),
-                                const Padding(
-                                  padding: EdgeInsets.all(defaultPadding),
-                                  child: CustomText(
-                                    text: 'Peepl Logo',
-                                  ),
-                                ),
-                              ],
-                            ),
-                            const Padding(
-                              padding: EdgeInsets.all(defaultPadding),
-                              child: Divider(
-                                thickness: 3,
-                              ),
-                            ),
-                            const VestingDetails(
-                              vestingDetails: 'Vested',
-                              amount: '\$5000',
-                            ),
-                            VestingDetails(
-                                vestingDetails: 'Schedule Count', amount: '1'),
-                            VestingDetails(
-                                vestingDetails: 'Schedule ID', amount: '00000'),
-                            VestingDetails(
-                                vestingDetails: 'Cycle ends in:',
-                                amount: '00:00:00'),
-                            Padding(
-                              padding: const EdgeInsets.all(defaultPadding),
-                              child: Divider(
-                                thickness: 3,
-                              ),
-                            ),
-                            CustomText(text: 'Peepl earned')
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
                   Expanded(
                     child: Container(
                       padding: const EdgeInsets.all(defaultPadding),
-                      height: height * 0.7,
+                      height: height * 0.759,
+                      width: 100,
+                      
                       decoration: const BoxDecoration(
                         color: containerColor,
                         borderRadius: BorderRadius.all(Radius.circular(10))
@@ -274,28 +205,116 @@ class _VestingPageState extends State<VestingPage> {
 
                                 child: Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
+                                  children: const [
                                     Padding(
-                                      padding: const EdgeInsets.all(8.0),
+                                      padding: EdgeInsets.all(8.0),
                                       child: CustomText2(text: 'Vested Amount'),
                                     ),
                                     Padding(
-                                      padding: const EdgeInsets.all(8.0),
+                                      padding: EdgeInsets.all(8.0),
                                       child: CustomText(text: '400', size: 40,),
                                     ),
                                     Padding(
-                                      padding: const EdgeInsets.all(8.0),
+                                      padding: EdgeInsets.all(8.0),
                                       child: CustomText2(text: 'PPL'),
                                     ),
                                   ],
                                 ),
                               ),
-                            )
+                            ),
                           ],),
                         ),
-                      )]),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 30, right: 30, top: 30, ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Column(
+                              children: [
+                                CustomText(text: 'Withdrawable Amount'),
+                                CustomText2(text: '\$600'),
+                              ],
+                            ),
+                            Spacer(),
+                            Column(
+                              children: [
+                                CustomText(text: 'Schedule Count'),
+                            CustomText2(text: '1'),
+                              ],
+                            ),
+
+                          ],
+
+                        ),
+                      ),
+
+                      Padding(padding: EdgeInsets.only(left: 30, right: 30, top: 10),
+                      child: 
+                      Row(
+                        children: [
+                          CustomText(text: 'Cycle Ends In: '),
+                          CustomText2(text: '00:00:00'),
+
+                        ],
+                      ),),
+
+                      ],),
                     ),
                   ),
+                  Expanded(
+                    child: Column(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(left: defaultPadding, right: defaultPadding,),
+                          child: Container(
+                            height: height * 0.4,
+                            width: width * 0.5,
+                            decoration: BoxDecoration(
+                              color: containerColor,
+                              borderRadius: BorderRadius.circular(10),
+                               image: const DecorationImage(
+                          image: AssetImage(
+                            "assets/images/mock_chart.png",
+                          ),
+                          fit: BoxFit.contain),
+
+                            ),
+                            
+                           
+                            
+                          ),
+                        ),
+
+                        Padding(padding: EdgeInsets.only(left: defaultPadding, right: defaultPadding, top: 10), 
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Container(
+                              height: height * 0.35,
+                              width: width * 0.21,
+                              decoration: BoxDecoration(
+                                color: containerColor,
+                                borderRadius: BorderRadius.circular(10.0),
+                              ),
+                              child: CustomText(text:'Hi',),
+                              ),
+                              Container(
+                              height: height * 0.35,
+                              width: width * 0.21,
+                              decoration: BoxDecoration(
+                                color: containerColor,
+                                borderRadius: BorderRadius.circular(10.0),
+                              ),
+                              child: CustomText(text:'Hi',),
+                              ),
+                          ],
+                        ),
+                          )
+                      ],
+                    ),
+                  ),
+                  
                 ],
               ),
             ),
