@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:nftapp/Widgets/no_transition_web.dart';
 import 'package:nftapp/controllers/menu_controller.dart';
 import 'package:nftapp/controllers/navigation_controller.dart';
 import 'package:nftapp/pages/404/error_page.dart';
-import 'package:nftapp/pages/dashboard/dashboard_screen.dart';
 import 'package:nftapp/routing/routes.dart';
 
 import 'pages/layout.dart';
@@ -48,12 +48,9 @@ class MyApp extends StatelessWidget {
                       .bodyText2!
                       .apply(color: Colors.white),
                 )).apply(),
-        pageTransitionsTheme: const PageTransitionsTheme(builders: {
-          TargetPlatform.iOS: const FadeUpwardsPageTransitionsBuilder(),
-          TargetPlatform.android: const FadeUpwardsPageTransitionsBuilder(),
-        }),
         scaffoldBackgroundColor: const Color(0xFF131028),
         canvasColor: const Color(0xFF1b162d),
+        pageTransitionsTheme: WebTransitions(),
       ),
       debugShowCheckedModeBanner: false,
     );
