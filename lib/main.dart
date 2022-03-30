@@ -48,9 +48,9 @@ class MyApp extends StatelessWidget {
                       .bodyText2!
                       .apply(color: Colors.white),
                 )).apply(),
-        pageTransitionsTheme: PageTransitionsTheme(builders: {
-          TargetPlatform.iOS: FadeUpwardsPageTransitionsBuilder(),
-          TargetPlatform.android: FadeUpwardsPageTransitionsBuilder(),
+        pageTransitionsTheme: const PageTransitionsTheme(builders: {
+          TargetPlatform.iOS: const FadeUpwardsPageTransitionsBuilder(),
+          TargetPlatform.android: const FadeUpwardsPageTransitionsBuilder(),
         }),
         scaffoldBackgroundColor: const Color(0xFF131028),
         canvasColor: const Color(0xFF1b162d),

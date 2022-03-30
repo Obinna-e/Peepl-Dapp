@@ -19,7 +19,7 @@ class SiteLayout extends StatelessWidget {
         drawer: ResponsiveWidget.isSmallScreen(context)
             ? Container(width: 100, child: Drawer(child: SideMenu()))
             : null,
-        body: ResponsiveWidget(
+        body: const ResponsiveWidget(
           largeScreen: LargeScreen(),
           smallScreen: SmallScreen(),
         ));

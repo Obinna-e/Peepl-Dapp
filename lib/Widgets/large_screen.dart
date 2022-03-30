@@ -11,12 +11,9 @@ class LargeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          ConstrainedBox(
-            constraints: const BoxConstraints(minWidth: 50, maxWidth: 100),
-            child: SideMenu(),
-          ),
+          const SideMenu(),
           Expanded(
             child: localNavigator(),
           ),

@@ -63,7 +63,7 @@ class _ConnectWalletState extends State<ConnectWallet> {
           padding: EdgeInsets.symmetric(horizontal: defaultPadding / 2),
           child: Text(
             widget.text == null ? 'Connect Wallet' : "${widget.text}",
-            style: TextStyle(color: Colors.black),
+            style: TextStyle(color: light),
           ),
         ),
       ),

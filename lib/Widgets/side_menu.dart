@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:nftapp/Widgets/horizontal_menu_item.dart';
 import 'package:nftapp/Widgets/side_menu_item.dart';
@@ -17,64 +18,52 @@ class SideMenu extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double _width = MediaQuery.of(context).size.width;
     return Container(
-      color: containerColor,
-      child: ListView(
-        children: [
-          Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              SizedBox(
-                height: 40,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Container(
-                    width: 55,
-                    height: 60,
-                    decoration: const BoxDecoration(
-                      image: const DecorationImage(
-                          image: AssetImage(
-                            "assets/icons/penguin.png",
-                          ),
-                          fit: BoxFit.cover),
-                    ),
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(35),
+          color: containerColor,
+          boxShadow: const [BoxShadow()]),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: <Widget>[
+              Padding(
+                padding: const EdgeInsets.symmetric(
+                    horizontal: defaultPadding, vertical: 40),
+                child: SizedBox(
+                  width: 70,
+                  height: 70,
+                  child: SvgPicture.asset(
+                    "assets/images/peepl_logo.svg",
                   ),
-                  SizedBox(
-                    width: _width / 48,
-                  ),
-                ],
+                ),
               ),
+            ] +
+            sideMenuItems
+                .map(
+                  (item) => SideMenuItem(
+                    itemName: item.name,
+                    onTap: () {
+                      //TODO:Remove later because no logout function
+                      if (item.route == settingsPageRoute) {
+                        menuController
+                            .changeActiveItemTo(overviewPageDisplayName);
+                        Get.offAllNamed(settingsPageRoute);
+                      }
+                      if (!menuController.isActive(item.name)) {
+                        menuController.changeActiveItemTo(item.name);
+                        if (ResponsiveWidget.isSmallScreen(context)) Get.back();
+                        navigationController.navigateTo(item.route);
+                      }
+                    },
+                  ),
+                )
+                .toList() +
+            [
+              const SizedBox(
+                height: 30,
+              )
             ],
-          ),
-          SizedBox(
-            height: 40,
-          ),
-          Column(
-            mainAxisSize: MainAxisSize.min,
-            children: sideMenuItems
-                .map((item) => SideMenuItem(
-                      itemName: item.name,
-                      onTap: () {
-                        //Remove later because no logout function
-                        if (item.route == settingsPageRoute) {
-                          menuController
-                              .changeActiveItemTo(overviewPageDisplayName);
-                          Get.offAllNamed(settingsPageRoute);
-                        }
-                        if (!menuController.isActive(item.name)) {
-                          menuController.changeActiveItemTo(item.name);
-                          if (ResponsiveWidget.isSmallScreen(context))
-                            Get.back();
-                          navigationController.navigateTo(item.route);
-                        }
-                      },
-                    ))
-                .toList(),
-          )
-        ],
       ),
     );
   }
