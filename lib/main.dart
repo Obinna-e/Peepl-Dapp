@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:nftapp/Widgets/no_transition_web.dart';
+import 'package:nftapp/constants/style.dart';
 import 'package:nftapp/controllers/menu_controller.dart';
 import 'package:nftapp/controllers/navigation_controller.dart';
 import 'package:nftapp/pages/404/error_page.dart';
@@ -48,7 +49,7 @@ class MyApp extends StatelessWidget {
                       .bodyText2!
                       .apply(color: Colors.white),
                 )).apply(),
-        scaffoldBackgroundColor: const Color(0xFF131028),
+        scaffoldBackgroundColor: scaffoldColor,
         canvasColor: const Color(0xFF1b162d),
         pageTransitionsTheme: WebTransitions(),
       ),

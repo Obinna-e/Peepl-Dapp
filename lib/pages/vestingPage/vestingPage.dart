@@ -1,10 +1,15 @@
-import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:fl_chart/fl_chart.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/state_manager.dart';
 import 'package:nftapp/Widgets/customText.dart';
 import 'package:nftapp/Widgets/token_rate_items.dart';
+import 'package:nftapp/Widgets/vestingdetails.dart';
 import 'package:nftapp/controllers/home_controller.dart';
 import 'package:nftapp/constants/style.dart';
+import 'package:clipboard/clipboard.dart';
+import 'package:flutter_inset_box_shadow/flutter_inset_box_shadow.dart'
+    as inset_box;
 import 'dart:math' as math;
 
 class VestingPage extends StatefulWidget {
@@ -20,11 +25,13 @@ class _VestingPageState extends State<VestingPage> {
     '4',
   ];
   String? value;
+  bool isPressed = false;
 
   @override
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;
+
     /*
     Todo: Add logic for switching screens in LargeScreen Widget
      */
@@ -33,6 +40,10 @@ class _VestingPageState extends State<VestingPage> {
           value: item,
           child: CustomText(text: item),
         );
+
+    Offset distance = isPressed ? const Offset(10, 10) : const Offset(28, 28);
+    double blur = isPressed ? 5.0 : 30.0;
+
     return GetBuilder<HomeController>(
       init: HomeController(),
       builder: (h) => Scaffold(
@@ -49,9 +60,66 @@ class _VestingPageState extends State<VestingPage> {
             //TODO: changge operating chain and chain id to Fuse and change below text to Fuse Network
             currentaddress = 'Wrong Chain! Please connect to BSC';
           } else if (h.isEnabled) {
-            return ElevatedButton(
-              onPressed: () async => await h.connect(),
-              child: const Text('Connect'),
+            // return ElevatedButton(
+            //   onPressed: () async => await h.connect(),
+            //   child: const Text('Connect'),
+            // );
+
+            return Center(
+              child: Listener(
+                onPointerUp: (_) => setState(() {
+                  isPressed = false;
+                  h.connect();
+                }),
+                onPointerDown: (_) => setState(() => isPressed = true),
+                child: AnimatedContainer(
+                  duration: const Duration(milliseconds: 100),
+                  decoration: inset_box.BoxDecoration(
+                    borderRadius: BorderRadius.circular(30),
+                    color: scaffoldColor,
+                    gradient: const LinearGradient(
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
+                        colors: [
+                          Color.fromARGB(255, 7, 6, 15),
+                          Color.fromARGB(255, 41, 35, 87),
+                        ]),
+                    boxShadow: [
+                      inset_box.BoxShadow(
+                        blurRadius: blur,
+                        offset: -distance,
+                        color: const Color.fromARGB(255, 41, 35, 87),
+                        inset: isPressed,
+                      ),
+                      inset_box.BoxShadow(
+                        blurRadius: blur,
+                        offset: distance,
+                        color: const Color.fromARGB(255, 7, 6, 15),
+                        inset: isPressed,
+                      ),
+                    ],
+                  ),
+                  child: SizedBox(
+                      height: 300,
+                      width: 300,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          SizedBox(
+                            height: 70,
+                            width: 70,
+                            child: SvgPicture.asset(
+                              "assets/images/metamask.svg",
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 20,
+                          ),
+                          const CustomText2(text: 'Connect Wallet'),
+                        ],
+                      )),
+                ),
+              ),
             );
           } else {
             currentaddress = 'Your browser is not Supported';
@@ -117,7 +185,13 @@ class _VestingPageState extends State<VestingPage> {
                               Padding(
                                 padding: const EdgeInsets.only(left: 8.0),
                                 child: ElevatedButton(
-                                  onPressed: () {},
+                                  onPressed: () {
+                                    h.isConnected
+                                        ? FlutterClipboard.copy(
+                                                h.currentAddress)
+                                            .then((value) => print('copied'))
+                                        : {};
+                                  },
                                   child: Row(
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
@@ -304,7 +378,7 @@ class _VestingPageState extends State<VestingPage> {
                                                   const EdgeInsets.all(8.0),
                                               child: CustomText(
                                                 text: '${h.withdrawableAmount}',
-                                                size: 40,
+                                                size: 30,
                                               ),
                                             ),
                                             const Padding(
@@ -319,39 +393,23 @@ class _VestingPageState extends State<VestingPage> {
                                 ),
                               ),
                             ),
-                            Padding(
-                              padding: const EdgeInsets.only(
+                            const Padding(
+                              padding: EdgeInsets.only(
                                 left: 30,
                                 right: 30,
                                 top: 30,
                               ),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Column(
-                                    children: const [
-                                      CustomText(text: 'Withdrawable Amount'),
-                                      CustomText2(text: '600 PPL'),
-                                    ],
-                                  ),
-                                  const Spacer(),
-                                  Column(
-                                    children: const [
-                                      CustomText(text: 'Schedule Count'),
-                                      CustomText2(text: '1'),
-                                    ],
-                                  ),
-                                ],
-                              ),
+                              child: VestingDetails(
+                                  vestingDetails: 'Withdrawable Amount',
+                                  amount: '600 PPL'),
                             ),
-                            Padding(
-                              padding: const EdgeInsets.only(
-                                  left: 30, right: 30, top: 10),
-                              child: Row(
-                                children: const [
-                                  CustomText(text: 'Cycle Ends In: '),
-                                  CustomText2(text: '00:00:00'),
-                                ],
+                            const Padding(
+                              padding:
+                                  EdgeInsets.only(left: 30, right: 30, top: 10),
+                              child: VestingDetails(
+                                vestingDetails: 'Cliff',
+                                note: 'Date: 31/03/2022',
+                                amount: 'Cycle Ends In: 00:00:00',
                               ),
                             ),
                           ],
