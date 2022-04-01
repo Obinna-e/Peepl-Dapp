@@ -1,5 +1,7 @@
 import 'package:flutter_web3/flutter_web3.dart';
 import 'package:get/get.dart';
+import 'package:nftapp/helpers/abi.dart';
+import 'package:nftapp/utils.dart';
 
 class HomeController extends GetxController {
   bool get isEnabled => ethereum != null;
@@ -38,7 +40,7 @@ class HomeController extends GetxController {
   init() {
     if (isEnabled) {
       getVestingContractInformation();
-      // if (vestingId != null) computeAmountReleasable(vestingId[0]);
+
       ethereum!.onAccountsChanged((accs) {
         clear();
       });
@@ -55,31 +57,8 @@ class HomeController extends GetxController {
     super.onInit();
   }
 
-  final abi = [
-    "function createVestingSchedule(address _beneficiary, uint256 _start, uint256 _cliff, uint256 _duration, uint256 _slicePeriodSeconds, bool _revocable, uint256 _amount)",
-    "constructor(address token_)",
-    "event OwnershipTransferred(address indexed previousOwner, address indexed newOwner)",
-    "function release(bytes32 vestingScheduleId, uint256 amount)",
-    "event Released(uint256 amount)",
-    "function renounceOwnership()",
-    "function revoke(bytes32 vestingScheduleId)",
-    "event Revoked()",
-    "function transferOwnership(address newOwner)",
-    "function withdraw(uint256 amount)",
-    "function computeNextVestingScheduleIdForHolder(address holder) view returns (bytes32)",
-    "function computeReleasableAmount(bytes32 vestingScheduleId) view returns (uint256)",
-    "function computeVestingScheduleIdForAddressAndIndex(address holder, uint256 index) pure returns (bytes32)",
-    "function getLastVestingScheduleForHolder(address holder) view returns (tuple(bool initialized, address beneficiary, uint256 cliff, uint256 start, uint256 duration, uint256 slicePeriodSeconds, bool revocable, uint256 amountTotal, uint256 released, bool revoked))",
-    "function getToken() view returns (address)",
-    "function getVestingIdAtIndex(uint256 index) view returns (bytes32)",
-    "function getVestingSchedule(bytes32 vestingScheduleId) view returns (tuple(bool initialized, address beneficiary, uint256 cliff, uint256 start, uint256 duration, uint256 slicePeriodSeconds, bool revocable, uint256 amountTotal, uint256 released, bool revoked))",
-    "function getVestingScheduleByAddressAndIndex(address holder, uint256 index) view returns (tuple(bool initialized, address beneficiary, uint256 cliff, uint256 start, uint256 duration, uint256 slicePeriodSeconds, bool revocable, uint256 amountTotal, uint256 released, bool revoked))",
-    "function getVestingSchedulesCount() view returns (uint256)",
-    "function getVestingSchedulesCountByBeneficiary(address _beneficiary) view returns (uint256)",
-    "function getVestingSchedulesTotalAmount() view returns (uint256)",
-    "function getWithdrawableAmount() view returns (uint256)",
-    "function owner() view returns (address)"
-  ];
+  final vestingContract =
+      Contract('0x4f95788Bc7Ba96337CEf7dbdCC1216Fa672E0051', abi, provider!);
 
   final contractAddress = '0x4f95788Bc7Ba96337CEf7dbdCC1216Fa672E0051';
 
@@ -92,26 +71,67 @@ class HomeController extends GetxController {
 
   BigInt yourTokenBalance = BigInt.zero;
 
-  getTokenBalance() async {
-    testToken ??= ContractERC20(FEQUITY_ADDRESS, provider!.getSigner());
-    yourTokenBalance = await testToken!.balanceOf(currentAddress);
-
-    update();
-  }
+  BigInt scheduleCount = BigInt.zero;
 
   Contract? tokenVesting;
-
-  List<BigInt> vestingId = [];
 
   int amountReleasable = 0;
 
   BigInt withdrawableAmount = BigInt.zero;
 
-  getVestingContractInformation() async {
-    final vestContract = Contract(contractAddress, abi, provider!);
+  var displayBalance;
 
+  var cliffDateStart;
+  var cliffDateEnd;
+  bool revoked = true;
+
+  List<String> scheduleIDs = [];
+
+  //Contract Methods
+
+  getVestingSchedulesCountByBeneficiary() async {
+    scheduleCount = await vestingContract.call<BigInt>(
+        'getVestingSchedulesCountByBeneficiary', [currentAddress]);
+
+    update();
+  }
+
+  //TODO: Move to a separate file e.g contract controller
+  getScheduleByAddressAndIndex(int id, String beneficiary) async {
+    final scheduleInfo = await vestingContract
+        .call('getVestingScheduleByAddressAndIndex', [beneficiary, id]);
+
+    cliffDateStart = scheduleInfo[2];
+    cliffDateEnd = scheduleInfo[3];
+    revoked = scheduleInfo[9];
+
+    //TODO: Remove print statement
+    print('$cliffDateStart ,$cliffDateEnd ,$revoked');
+  }
+
+  getUserVestingSchedulesList(int amountOfSchedules, String address) async {
+    for (int i = 0; i < amountOfSchedules; i++) {
+      final vestingScheduleId = await vestingContract.call(
+          'computeVestingScheduleIdForAddressAndIndex',
+          [address, BigInt.from(i)]);
+      scheduleIDs.add(vestingScheduleId);
+    }
+
+    print(scheduleIDs);
+  }
+
+  getTokenBalance() async {
+    testToken ??= ContractERC20(FEQUITY_ADDRESS, provider!.getSigner());
+    yourTokenBalance = await testToken!.balanceOf(currentAddress);
+
+    displayBalance = toDecimal(yourTokenBalance, 18);
+
+    update();
+  }
+
+  getVestingContractInformation() async {
     withdrawableAmount =
-        await vestContract.call<BigInt>('getWithdrawableAmount');
+        await vestingContract.call<BigInt>('getWithdrawableAmount');
 
     update();
   }

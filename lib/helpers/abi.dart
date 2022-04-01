@@ -1,4 +1,4 @@
-final humanReadableAbi = [
+final abi = [
   "function createVestingSchedule(address _beneficiary, uint256 _start, uint256 _cliff, uint256 _duration, uint256 _slicePeriodSeconds, bool _revocable, uint256 _amount)",
   "constructor(address token_)",
   "event OwnershipTransferred(address indexed previousOwner, address indexed newOwner)",
