@@ -33,7 +33,7 @@ class _VestingPageState extends State<VestingPage> {
     final width = MediaQuery.of(context).size.width;
 
     /*
-    Todo: Add logic for switching screens in LargeScreen Widget
+    TODO: Add logic for switching screens in LargeScreen Widget
      */
 
     DropdownMenuItem<String> buildMenuItem(String item) => DropdownMenuItem(
@@ -58,6 +58,8 @@ class _VestingPageState extends State<VestingPage> {
 
           if (h.isConnected && h.isInOperatingChain) {
             h.getVestingSchedulesCountByBeneficiary();
+            h.getVestingContractInformation();
+            h.getScheduleByAddressAndIndex(0, h.currentAddress);
           } else if (h.isConnected && !h.isInOperatingChain) {
             //TODO: changge operating chain and chain id to Fuse and change below text to Fuse Network
             text = 'Wrong Chain! Please connect to BSC';
@@ -229,23 +231,14 @@ class _VestingPageState extends State<VestingPage> {
                                 Row(
                                   children: [
                                     IconButton(
-                                      onPressed: () {
-                                        h.getTokenBalance();
-
-                                        h.getScheduleByAddressAndIndex(0,
-                                            '0x269Db08337C024DADD9b41E0086ED1401c7a2993');
-                                      },
+                                      onPressed: () {},
                                       icon: Icon(
                                         Icons.search,
                                         color: Colors.grey[600],
                                       ),
                                     ),
                                     IconButton(
-                                      onPressed: () {
-                                        h.getVestingContractInformation();
-                                        h.getUserVestingSchedulesList(2,
-                                            '0x269Db08337C024DADD9b41E0086ED1401c7a2993');
-                                      },
+                                      onPressed: () {},
                                       icon: Icon(
                                         Icons.refresh_outlined,
                                         color: Colors.grey[600],
@@ -398,7 +391,7 @@ class _VestingPageState extends State<VestingPage> {
                                                             8.0),
                                                     child: CustomText(
                                                       text:
-                                                          '${h.displayBalance}',
+                                                          '${h.amountReleasable}',
                                                       size: 30,
                                                     ),
                                                   ),
@@ -418,7 +411,7 @@ class _VestingPageState extends State<VestingPage> {
                                   ),
                                   VestingDetails(
                                     vestingDetails: 'Withdrawable Amount',
-                                    amount: '600 PPL',
+                                    amount: '${h.amountReleasable} PPL',
                                     color: Colors.purple[900],
                                     note:
                                         'CLAIMING BEFORE FULLY VESTED REVOKES \nREMAINING AMOUNT',
@@ -430,8 +423,8 @@ class _VestingPageState extends State<VestingPage> {
                                   ),
                                   VestingDetails(
                                     vestingDetails: 'Cliff',
-                                    note: 'Start Date: 31/03/2022',
-                                    amount: 'Fully Vested on: 24/05/22',
+                                    note: 'Start Date: ${h.startTime}',
+                                    amount: 'Fully Vested on: ${h.endTime}',
                                     color: Colors.lightGreen[400],
                                   ),
                                 ],

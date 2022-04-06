@@ -1,6 +1,7 @@
 import 'package:flutter_web3/flutter_web3.dart';
 import 'package:get/get.dart';
 import 'package:nftapp/helpers/abi.dart';
+import 'package:nftapp/helpers/dateTimeFormat.dart';
 import 'package:nftapp/utils.dart';
 
 class HomeController extends GetxController {
@@ -81,8 +82,8 @@ class HomeController extends GetxController {
 
   var displayBalance;
 
-  var cliffDateStart;
-  var cliffDateEnd;
+  var startTime = '';
+  var endTime = '';
   bool revoked = true;
 
   List<String> scheduleIDs = [];
@@ -98,15 +99,21 @@ class HomeController extends GetxController {
 
   //TODO: Move to a separate file e.g contract controller
   getScheduleByAddressAndIndex(int id, String beneficiary) async {
-    final scheduleInfo = await vestingContract
+    final schedule = await vestingContract
         .call('getVestingScheduleByAddressAndIndex', [beneficiary, id]);
 
-    cliffDateStart = scheduleInfo[2];
-    cliffDateEnd = scheduleInfo[3];
-    revoked = scheduleInfo[9];
+    startTime = readTimestamp(
+      int.parse(
+        schedule[2].toString(),
+      ),
+    );
+    endTime = readTimestamp(
+      int.parse(
+        schedule[3].toString(),
+      ),
+    );
 
-    //TODO: Remove print statement
-    print('$cliffDateStart ,$cliffDateEnd ,$revoked');
+    update();
   }
 
   getUserVestingSchedulesList(int amountOfSchedules, String address) async {
