@@ -18,12 +18,7 @@ class VestingPage extends StatefulWidget {
 }
 
 class _VestingPageState extends State<VestingPage> {
-  final mockDropdown = [
-    '1',
-    '2',
-    '3',
-    '4',
-  ];
+  final mockDropdown = [];
   String? value;
   bool isPressed = false;
 
@@ -178,7 +173,7 @@ class _VestingPageState extends State<VestingPage> {
                                             ),
                                           ),
                                           value: value,
-                                          items: mockDropdown
+                                          items: h.scheduleIDdropdown
                                               .map(buildMenuItem)
                                               .toList(),
                                           onChanged: (value) => setState(
@@ -238,7 +233,10 @@ class _VestingPageState extends State<VestingPage> {
                                       ),
                                     ),
                                     IconButton(
-                                      onPressed: () {},
+                                      onPressed: () {
+                                        h.getUserVestingSchedulesList(
+                                            h.scheduleCount, h.currentAddress);
+                                      },
                                       icon: Icon(
                                         Icons.refresh_outlined,
                                         color: Colors.grey[600],

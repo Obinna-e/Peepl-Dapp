@@ -72,7 +72,7 @@ class HomeController extends GetxController {
 
   BigInt yourTokenBalance = BigInt.zero;
 
-  BigInt scheduleCount = BigInt.zero;
+  int scheduleCount = 0;
 
   Contract? tokenVesting;
 
@@ -81,19 +81,22 @@ class HomeController extends GetxController {
   BigInt withdrawableAmount = BigInt.zero;
 
   var displayBalance;
+  var displayID;
 
   var startTime = '';
   var endTime = '';
   bool revoked = true;
 
   List<String> scheduleIDs = [];
+  List<String> scheduleIDdropdown = [];
 
   //Contract Methods
 
   getVestingSchedulesCountByBeneficiary() async {
-    scheduleCount = await vestingContract.call<BigInt>(
+    final BigInt response = await vestingContract.call<BigInt>(
         'getVestingSchedulesCountByBeneficiary', [currentAddress]);
 
+    scheduleCount = response.toInt();
     update();
   }
 
@@ -104,14 +107,17 @@ class HomeController extends GetxController {
 
     startTime = readTimestamp(
       int.parse(
-        schedule[2].toString(),
-      ),
-    );
-    endTime = readTimestamp(
-      int.parse(
         schedule[3].toString(),
       ),
     );
+
+    final tempStart = int.parse(schedule[2].toString());
+    final tempDuration = int.parse(schedule[4].toString());
+
+    endTime = readTimestamp(tempStart + tempDuration);
+
+    
+
 
     update();
   }
@@ -122,9 +128,10 @@ class HomeController extends GetxController {
           'computeVestingScheduleIdForAddressAndIndex',
           [address, BigInt.from(i)]);
       scheduleIDs.add(vestingScheduleId);
+      scheduleIDdropdown.add(scheduleIDs.length.toString());
     }
 
-    print(scheduleIDs);
+    update();
   }
 
   getTokenBalance() async {
