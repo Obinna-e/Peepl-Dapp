@@ -13,8 +13,8 @@ class CustomText extends StatelessWidget {
     return Text(
       text,
       style: TextStyle(
-          fontSize: size ?? 16,
-          color: color ?? light,
+          fontSize: size ?? 20,
+          color: color ?? callToAction,
           fontWeight: weight ?? FontWeight.normal),
     );
   }
@@ -32,8 +32,8 @@ class CustomText2 extends StatelessWidget {
     return Text(
       text,
       style: TextStyle(
-          fontSize: size ?? 16,
-          color: color ?? Colors.grey[500],
+          fontSize: size ?? 20,
+          color: color ?? callToAction,
           fontWeight: weight ?? FontWeight.normal),
     );
   }

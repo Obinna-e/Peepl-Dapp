@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:nftapp/Widgets/customText.dart';
-import 'package:nftapp/constants/style.dart';
 
 class VestingDetails extends StatelessWidget {
   final String vestingDetails;
@@ -38,7 +37,7 @@ class VestingDetails extends StatelessWidget {
                     width: 5,
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(10.0),
-                        color: color ?? light),
+                        color: color ?? Colors.white),
                   ),
                   const SizedBox(
                     width: 10,

@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:nftapp/controllers/home_controller.dart';
 import 'package:nftapp/constants/style.dart';
-import '../pages/vestingPage/vestingPage.dart';
 
 class Header extends StatefulWidget {
   final String? walletState;
-  final dynamic connectWallet;
-  const Header({Key? key, this.walletState, this.connectWallet})
+  final VoidCallback connectWallet;
+  const Header({Key? key, this.walletState, required this.connectWallet})
       : super(key: key);
 
   @override
@@ -17,20 +15,20 @@ class _HeaderState extends State<Header> {
   @override
   Widget build(BuildContext context) {
     return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Expanded(
-          child: SearchField(),
+        Image.asset(
+          'assets/images/logo-red.png',
+          width: 120,
+          height: 120,
         ),
-        Spacer(),
-        Row(
-          children: [
-            Notification(),
-            ConnectWallet(
-              text: widget.walletState,
-              connectWallet: widget.connectWallet,
-            ),
-          ],
-        )
+        const SizedBox(
+          width: itemPadding,
+        ),
+        ConnectWallet(
+          text: widget.walletState,
+          connectWallet: widget.connectWallet,
+        ),
       ],
     );
   }
@@ -38,8 +36,8 @@ class _HeaderState extends State<Header> {
 
 class ConnectWallet extends StatefulWidget {
   final String? text;
-  final dynamic connectWallet;
-  const ConnectWallet({Key? key, this.text, this.connectWallet})
+  final VoidCallback connectWallet;
+  const ConnectWallet({Key? key, this.text, required this.connectWallet})
       : super(key: key);
 
   @override
@@ -60,83 +58,13 @@ class _ConnectWalletState extends State<ConnectWallet> {
           ),
         ),
         child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: defaultPadding / 2),
+          padding: const EdgeInsets.symmetric(horizontal: defaultPadding / 2),
           child: Text(
             widget.text == null ? 'Connect Wallet' : "${widget.text}",
-            style: TextStyle(color: light),
+            style: const TextStyle(color: Colors.white),
           ),
         ),
       ),
-    );
-  }
-}
-
-class Notification extends StatelessWidget {
-  const Notification({
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 10.0),
-      child: InkWell(
-        onTap: () {},
-        child: Container(
-          padding: const EdgeInsets.all(defaultPadding * 0.75),
-          decoration: const BoxDecoration(
-            color: containerColor,
-            borderRadius: BorderRadius.all(
-              Radius.circular(10),
-            ),
-          ),
-          child: Stack(
-            children: [
-              const Icon(
-                Icons.notifications_outlined,
-                color: Colors.white70,
-              ),
-              Positioned(
-                  top: 2,
-                  left: 12,
-                  child: Container(
-                    width: 12,
-                    height: 12,
-                    padding: EdgeInsets.all(4),
-                    decoration: BoxDecoration(
-                        color: callToAction,
-                        borderRadius: BorderRadius.circular(30),
-                        border: Border.all(color: Colors.white, width: 2)),
-                  ))
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class SearchField extends StatelessWidget {
-  const SearchField({
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return TextField(
-      decoration: const InputDecoration(
-          hintText: "Search item, Collections...",
-          hintStyle: TextStyle(color: Colors.white70),
-          prefixIcon: Icon(
-            Icons.search_sharp,
-            color: Colors.white70,
-          ),
-          fillColor: containerColor,
-          helperStyle: TextStyle(color: Colors.white70),
-          filled: true,
-          border: OutlineInputBorder(
-              borderSide: BorderSide.none,
-              borderRadius: BorderRadius.all(Radius.circular(10.0)))),
     );
   }
 }

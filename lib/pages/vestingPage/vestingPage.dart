@@ -134,7 +134,7 @@ class _VestingPageState extends State<VestingPage> {
                                 Row(
                                   children: const [
                                     Icon(Icons.dashboard_outlined,
-                                        color: light, size: 30),
+                                        color: Colors.white, size: 30),
                                     Padding(
                                       padding: EdgeInsets.all(8.0),
                                       child: CustomText(
@@ -146,10 +146,9 @@ class _VestingPageState extends State<VestingPage> {
                                 ),
                                 Row(
                                   children: [
-                                    Container(
+                                    SizedBox(
                                       height: 35,
                                       width: 400,
-                                      color: containerColor,
                                       child: DropdownButtonFormField<String>(
                                           decoration: InputDecoration(
                                             isDense: true,
@@ -211,9 +210,7 @@ class _VestingPageState extends State<VestingPage> {
                                             const Icon(Icons.copy),
                                           ],
                                         ),
-                                        style: ElevatedButton.styleFrom(
-                                          primary: containerColor,
-                                        ),
+                                        style: ElevatedButton.styleFrom(),
                                       ),
                                     ),
                                   ],
@@ -252,7 +249,6 @@ class _VestingPageState extends State<VestingPage> {
                                         width: 105,
                                         padding: const EdgeInsets.all(6.0),
                                         decoration: BoxDecoration(
-                                          color: containerColor,
                                           borderRadius:
                                               BorderRadius.circular(10.0),
                                           border:
@@ -296,7 +292,6 @@ class _VestingPageState extends State<VestingPage> {
                                                 angle: 180 * math.pi / 100,
                                                 child: const Icon(
                                                   Icons.arrow_forward_rounded,
-                                                  color: light,
                                                 )),
                                             const CustomText(text: 'Send'),
                                           ],
@@ -320,7 +315,6 @@ class _VestingPageState extends State<VestingPage> {
                               height: height * 0.759,
                               width: 100,
                               decoration: const BoxDecoration(
-                                  color: containerColor,
                                   borderRadius:
                                       BorderRadius.all(Radius.circular(35))),
                               child: Column(
@@ -441,7 +435,6 @@ class _VestingPageState extends State<VestingPage> {
                                     height: height * 0.4,
                                     width: width * 0.5,
                                     decoration: BoxDecoration(
-                                      color: containerColor,
                                       borderRadius: BorderRadius.circular(35.0),
                                       image: const DecorationImage(
                                           image: AssetImage(
@@ -464,7 +457,6 @@ class _VestingPageState extends State<VestingPage> {
                                         height: height * 0.35,
                                         width: width * 0.21,
                                         decoration: BoxDecoration(
-                                          color: containerColor,
                                           borderRadius:
                                               BorderRadius.circular(35.0),
                                         ),
@@ -500,7 +492,6 @@ class _VestingPageState extends State<VestingPage> {
                                         height: height * 0.35,
                                         width: width * 0.21,
                                         decoration: BoxDecoration(
-                                          color: containerColor,
                                           borderRadius:
                                               BorderRadius.circular(35.0),
                                         ),

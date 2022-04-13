@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:nftapp/Widgets/no_transition_web.dart';
 import 'package:nftapp/constants/style.dart';
-import 'package:nftapp/controllers/menu_controller.dart';
-import 'package:nftapp/controllers/navigation_controller.dart';
 import 'package:nftapp/pages/404/error_page.dart';
 import 'package:nftapp/routing/routes.dart';
 
@@ -11,8 +9,6 @@ import 'pages/layout.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 void main() {
-  Get.put(MenuController());
-  Get.put(NavigationController());
   runApp(const MyApp());
 }
 
@@ -39,7 +35,7 @@ class MyApp extends StatelessWidget {
           secondary: const Color(0xFFB21EC1),
         ),
         textTheme:
-            GoogleFonts.rubikTextTheme(Theme.of(context).textTheme.copyWith(
+            GoogleFonts.bebasNeueTextTheme(Theme.of(context).textTheme.copyWith(
                   bodyText1: Theme.of(context)
                       .textTheme
                       .bodyText1!

@@ -116,9 +116,6 @@ class HomeController extends GetxController {
 
     endTime = readTimestamp(tempStart + tempDuration);
 
-    
-
-
     update();
   }
 
@@ -155,5 +152,13 @@ class HomeController extends GetxController {
 
     amountReleasable =
         await tokenVesting!.call<int>('computeReleasableAmount', [id]);
+  }
+
+  release(
+    BigInt schedule,
+  ) async {
+    await vestingContract.call<BigInt>('Released', [
+      schedule,
+    ]);
   }
 }
