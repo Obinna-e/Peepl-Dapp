@@ -24,7 +24,7 @@ class _HeaderState extends State<Header> {
           height: 150,
         ),
         const SizedBox(
-          width: itemPadding,
+          width: itemPadding + 80,
         ),
         ConnectWallet(
           text: widget.walletState,
