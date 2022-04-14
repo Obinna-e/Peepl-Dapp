@@ -20,7 +20,10 @@ class DashboardScreen extends StatelessWidget {
                   if (h.isConnected && h.isInOperatingChain) {
                     h.getVestingSchedulesCountByBeneficiary();
                     h.getVestingContractInformation();
+
                     h.getScheduleByAddressAndIndex(0, h.currentAddress);
+
+                    h.getSchedulesInfo();
                   } else if (h.isConnected && !h.isInOperatingChain) {
                     text = 'Wrong Chain! Please connect to FUSE Network';
                   } else if (h.isEnabled) {
@@ -40,7 +43,10 @@ class DashboardScreen extends StatelessWidget {
                                   child: Column(
                                     children: const [
                                       CustomText(text: 'Your Schedule Id'),
-                                      CustomText(text: '0x######'),
+                                      CustomText(
+                                        text: '0x######',
+                                        color: textColorBlack,
+                                      ),
                                     ],
                                   ),
                                 ),
@@ -51,14 +57,23 @@ class DashboardScreen extends StatelessWidget {
                                       Column(
                                         children: const [
                                           CustomText(text: 'Vested Amount'),
-                                          CustomText(text: '##### PPL (£####)'),
+                                          CustomText(
+                                            text: '##### PPL (£####)',
+                                            color: textColorBlack,
+                                          ),
                                         ],
                                       ),
                                       Column(
                                         children: const [
                                           CustomText(text: 'Fully Vested'),
-                                          CustomText(text: '##### Days'),
-                                          CustomText2(text: 'YYYY-MM-DD'),
+                                          CustomText(
+                                            text: '##### Days',
+                                            color: Colors.black,
+                                          ),
+                                          CustomText2(
+                                            text: 'YYYY-MM-DD',
+                                            color: textColorGrey,
+                                          ),
                                         ],
                                       )
                                     ],
@@ -72,15 +87,24 @@ class DashboardScreen extends StatelessWidget {
                                         children: const [
                                           CustomText(
                                               text: 'Withdrawable Amount'),
-                                          CustomText(text: '##### PPL (£####)'),
+                                          CustomText(
+                                            text: '##### PPL (£####)',
+                                            color: textColorBlack,
+                                          ),
                                         ],
                                       ),
                                       Column(
                                         children: const [
                                           CustomText(
                                               text: 'Withdrawal Available in'),
-                                          CustomText(text: '##### Days'),
-                                          CustomText2(text: 'YYYY-MM-DD'),
+                                          CustomText(
+                                            text: '##### Days',
+                                            color: textColorBlack,
+                                          ),
+                                          CustomText2(
+                                            text: 'YYYY-MM-DD',
+                                            color: textColorGrey,
+                                          ),
                                         ],
                                       )
                                     ],
@@ -98,9 +122,10 @@ class DashboardScreen extends StatelessWidget {
                   }
 
                   return (h.isConnected && h.isInOperatingChain)
-                      ? SafeArea(
-                          child: SingleChildScrollView(
-                            padding: const EdgeInsets.all(defaultPadding),
+                      ? SingleChildScrollView(
+                          padding: const EdgeInsets.all(defaultPadding),
+                          child: SizedBox(
+                            height: MediaQuery.of(context).size.height,
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
@@ -117,7 +142,10 @@ class DashboardScreen extends StatelessWidget {
                                         children: [
                                           const CustomText(
                                               text: 'Your Schedule Id'),
-                                          CustomText(text: h.displayAddress),
+                                          CustomText(
+                                            text: h.displayScheduleID,
+                                            color: textColorBlack,
+                                          ),
                                         ],
                                       ),
                                     ),
@@ -131,17 +159,24 @@ class DashboardScreen extends StatelessWidget {
                                               const CustomText(
                                                   text: 'Vested Amount'),
                                               CustomText(
-                                                  text:
-                                                      '${h.amountReleasable} PPL (£####)'),
+                                                text:
+                                                    '${h.vestedTotal} PPL (£####)',
+                                                color: textColorBlack,
+                                              ),
                                             ],
                                           ),
                                           Column(
                                             children: [
                                               const CustomText(
                                                   text: 'Fully Vested'),
-                                              const CustomText(
-                                                  text: '##### Days'),
-                                              CustomText2(text: h.endTime),
+                                              CustomText(
+                                                text: '${h.endTimeDays} Days',
+                                                color: textColorBlack,
+                                              ),
+                                              CustomText2(
+                                                text: h.endTime,
+                                                color: textColorGrey,
+                                              ),
                                             ],
                                           )
                                         ],
@@ -157,18 +192,27 @@ class DashboardScreen extends StatelessWidget {
                                               const CustomText(
                                                   text: 'Withdrawable Amount'),
                                               CustomText(
-                                                  text:
-                                                      '${h.amountReleasable} PPL (£####)'),
+                                                text:
+                                                    '${h.amountReleasable} PPL (£####)',
+                                                color: textColorBlack,
+                                              ),
                                             ],
                                           ),
                                           Column(
                                             children: [
                                               const CustomText(
+                                                  //TODO: Change this text to cliff date since User will not be allowed to withdraw early
                                                   text:
                                                       'Withdrawal Available in'),
-                                              const CustomText(
-                                                  text: '##### Days'),
-                                              CustomText2(text: h.endTime),
+                                              CustomText(
+                                                //TODO: If end day is negative, show 0 days!!!
+                                                text: '${h.cliffEndDays} Days',
+                                                color: textColorBlack,
+                                              ),
+                                              CustomText2(
+                                                text: h.cliff,
+                                                color: textColorGrey,
+                                              ),
                                             ],
                                           )
                                         ],

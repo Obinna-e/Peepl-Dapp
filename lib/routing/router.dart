@@ -3,7 +3,7 @@ import 'package:nftapp/pages/charts/chart.dart';
 import 'package:nftapp/pages/dashboard/dashboard_screen.dart';
 import 'package:nftapp/pages/purchase/purchase.dart';
 import 'package:nftapp/pages/settings/setting.dart';
-import 'package:nftapp/pages/vestingPage/vestingPage.dart';
+
 import 'package:nftapp/pages/wallet/wallets.dart';
 import 'package:nftapp/routing/routes.dart';
 
@@ -17,8 +17,6 @@ Route<dynamic> generateRoute(RouteSettings settings) {
       return _getPageRoute(WalletPage());
     case chartingPageRoute:
       return _getPageRoute(ChartsPage());
-    case timerPageRoute:
-      return _getPageRoute(VestingPage());
     case settingsPageRoute:
       return _getPageRoute(SettingsPage());
     default:

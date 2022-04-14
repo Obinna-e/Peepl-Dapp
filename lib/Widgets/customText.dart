@@ -13,7 +13,7 @@ class CustomText extends StatelessWidget {
     return Text(
       text,
       style: TextStyle(
-          fontSize: size ?? 20,
+          fontSize: size ?? 30,
           color: color ?? callToAction,
           fontWeight: weight ?? FontWeight.normal),
     );
@@ -32,7 +32,7 @@ class CustomText2 extends StatelessWidget {
     return Text(
       text,
       style: TextStyle(
-          fontSize: size ?? 20,
+          fontSize: size ?? 30,
           color: color ?? callToAction,
           fontWeight: weight ?? FontWeight.normal),
     );

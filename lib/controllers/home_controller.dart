@@ -13,6 +13,7 @@ class HomeController extends GetxController {
 
   String currentAddress = '';
   String displayAddress = '';
+  String displayScheduleID = '';
   int currentChain = -1;
   static const OPERATING_CHAIN = 97;
 
@@ -76,15 +77,20 @@ class HomeController extends GetxController {
 
   Contract? tokenVesting;
 
-  int amountReleasable = 0;
+  var amountReleasable;
 
   BigInt withdrawableAmount = BigInt.zero;
 
   var displayBalance;
+
   var displayID;
 
-  var startTime = '';
-  var endTime = '';
+  String startTime = '';
+  String endTime = '';
+  String endTimeDays = '';
+  String cliff = '';
+  String cliffEndDays = '';
+  var vestedTotal;
   bool revoked = true;
 
   List<String> scheduleIDs = [];
@@ -111,24 +117,46 @@ class HomeController extends GetxController {
       ),
     );
 
-    final tempStart = int.parse(schedule[2].toString());
+    cliff = readTimestamp(int.parse(schedule[2].toString()));
+
+    final total = int.parse(schedule[7].toString());
+
+    vestedTotal = toDecimal(BigInt.parse(schedule[7].toString()), 18);
+    final tempStart = int.parse(schedule[3].toString());
     final tempDuration = int.parse(schedule[4].toString());
 
+//TODO: Add error for no vesting schedule
+
     endTime = readTimestamp(tempStart + tempDuration);
+
+    DateTime tempEnd =
+        DateTime.fromMillisecondsSinceEpoch((tempStart + tempDuration) * 1000);
+    DateTime tempStartTime = DateTime.fromMillisecondsSinceEpoch(
+        int.parse(schedule[3].toString()) * 1000);
+
+    DateTime tempCliff = DateTime.fromMillisecondsSinceEpoch(
+        int.parse(schedule[2].toString()) * 1000);
+    endTimeDays = daysBetween(DateTime.now(), tempEnd);
+    cliffEndDays = daysBetween(DateTime.now(), tempCliff);
 
     update();
   }
 
-  getUserVestingSchedulesList(int amountOfSchedules, String address) async {
+  Future<List<String>> getUserVestingSchedulesList(
+      int amountOfSchedules, String address) async {
+    List<String> schedules = [];
     for (int i = 0; i < amountOfSchedules; i++) {
       final vestingScheduleId = await vestingContract.call(
           'computeVestingScheduleIdForAddressAndIndex',
           [address, BigInt.from(i)]);
-      scheduleIDs.add(vestingScheduleId);
-      scheduleIDdropdown.add(scheduleIDs.length.toString());
-    }
+      schedules.add(vestingScheduleId);
 
-    update();
+      //To add schedule dropdown list
+      // scheduleIDdropdown.add(scheduleIDs.length.toString());
+    }
+    return schedules;
+
+    // update();
   }
 
   getTokenBalance() async {
@@ -147,16 +175,29 @@ class HomeController extends GetxController {
     update();
   }
 
-  computeAmountReleasable(BigInt id) async {
-    await getVestingContractInformation();
+  computeAmountReleasable(String id) async {
+    final BigInt releaseable =
+        await vestingContract.call<BigInt>('computeReleasableAmount', [id]);
 
-    amountReleasable =
-        await tokenVesting!.call<int>('computeReleasableAmount', [id]);
+    amountReleasable = toDecimal(releaseable, 18);
   }
 
-  release(
-    BigInt schedule,
-  ) async {
+  getSchedulesInfo() async {
+    final List<String> lists =
+        await getUserVestingSchedulesList(1, currentAddress);
+
+    scheduleIDs = List.from(lists);
+    displayScheduleID = scheduleIDs[0].substring(0, 5) +
+        "..." +
+        scheduleIDs[0].substring(61, 66);
+
+    computeAmountReleasable(scheduleIDs[0]);
+
+    update();
+    // await computeAmountReleasable(BigInt.parse(scheduleIDs[0]));
+  }
+
+  release(BigInt schedule) async {
     await vestingContract.call<BigInt>('Released', [
       schedule,
     ]);
