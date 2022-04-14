@@ -9,6 +9,11 @@ import 'package:nftapp/controllers/home_controller.dart';
 class DashboardScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    var size = MediaQuery.of(context).size;
+
+    /*24 is for notification bar on Android*/
+    final double itemHeight = (size.height - kToolbarHeight - 24) / 2;
+    final double itemWidth = size.width / 5;
     return GetBuilder<HomeController>(
         init: HomeController(),
         builder: (h) => Scaffold(
@@ -29,89 +34,78 @@ class DashboardScreen extends StatelessWidget {
                   } else if (h.isEnabled) {
                     return SafeArea(
                       child: SingleChildScrollView(
-                        padding: const EdgeInsets.all(defaultPadding),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                            Column(
+                            Header(
+                              connectWallet: h.connect,
+                            ),
+                            GridView.count(
+                              crossAxisCount: 2,
+                              childAspectRatio: 5 / 2,
+                              crossAxisSpacing: 0,
+                              shrinkWrap: true,
+                              padding: EdgeInsets.only(
+                                  left: itemWidth, right: itemWidth),
                               children: [
-                                Header(
-                                  connectWallet: h.connect,
+                                Column(
+                                  children: const [
+                                    CustomText(text: 'Your Schedule Id'),
+                                    CustomText(
+                                      text: '0x######',
+                                      color: textColorBlack,
+                                    ),
+                                  ],
                                 ),
-                                Padding(
-                                  padding: const EdgeInsets.all(defaultPadding),
-                                  child: Column(
-                                    children: const [
-                                      CustomText(text: 'Your Schedule Id'),
-                                      CustomText(
-                                        text: '0x######',
-                                        color: textColorBlack,
-                                      ),
-                                    ],
-                                  ),
+                                const SizedBox(
+                                  height: 2,
                                 ),
-                                Padding(
-                                  padding: const EdgeInsets.all(defaultPadding),
-                                  child: Row(
-                                    children: [
-                                      Column(
-                                        children: const [
-                                          CustomText(text: 'Vested Amount'),
-                                          CustomText(
-                                            text: '##### PPL (£####)',
-                                            color: textColorBlack,
-                                          ),
-                                        ],
-                                      ),
-                                      Column(
-                                        children: const [
-                                          CustomText(text: 'Fully Vested'),
-                                          CustomText(
-                                            text: '##### Days',
-                                            color: Colors.black,
-                                          ),
-                                          CustomText2(
-                                            text: 'YYYY-MM-DD',
-                                            color: textColorGrey,
-                                          ),
-                                        ],
-                                      )
-                                    ],
-                                  ),
+                                Column(
+                                  children: const [
+                                    CustomText(text: 'Vested Amount'),
+                                    CustomText(
+                                      text: '##### PPL (£####)',
+                                      color: textColorBlack,
+                                    ),
+                                  ],
                                 ),
-                                Padding(
-                                  padding: const EdgeInsets.all(defaultPadding),
-                                  child: Row(
-                                    children: [
-                                      Column(
-                                        children: const [
-                                          CustomText(
-                                              text: 'Withdrawable Amount'),
-                                          CustomText(
-                                            text: '##### PPL (£####)',
-                                            color: textColorBlack,
-                                          ),
-                                        ],
-                                      ),
-                                      Column(
-                                        children: const [
-                                          CustomText(
-                                              text: 'Withdrawal Available in'),
-                                          CustomText(
-                                            text: '##### Days',
-                                            color: textColorBlack,
-                                          ),
-                                          CustomText2(
-                                            text: 'YYYY-MM-DD',
-                                            color: textColorGrey,
-                                          ),
-                                        ],
-                                      )
-                                    ],
-                                  ),
-                                )
+                                Column(
+                                  children: const [
+                                    CustomText(text: 'Fully Vested'),
+                                    CustomText(
+                                      text: '##### Days',
+                                      color: Colors.black,
+                                    ),
+                                    CustomText2(
+                                      text: 'YYYY-MM-DD',
+                                      color: textColorGrey,
+                                    ),
+                                  ],
+                                ),
+                                Column(
+                                  children: const [
+                                    CustomText(text: 'Withdrawable Amount'),
+                                    CustomText(
+                                      text: '##### PPL (£####)',
+                                      color: textColorBlack,
+                                    ),
+                                  ],
+                                ),
+                                Column(
+                                  children: const [
+                                    CustomText(text: 'Withdrawal Available in'),
+                                    CustomText(
+                                      text: '##### Days',
+                                      color: textColorBlack,
+                                    ),
+                                    CustomText2(
+                                      text: 'YYYY-MM-DD',
+                                      color: textColorGrey,
+                                    ),
+                                  ],
+                                ),
                               ],
-                            )
+                            ),
                           ],
                         ),
                       ),
@@ -124,104 +118,84 @@ class DashboardScreen extends StatelessWidget {
                   return (h.isConnected && h.isInOperatingChain)
                       ? SingleChildScrollView(
                           padding: const EdgeInsets.all(defaultPadding),
-                          child: SizedBox(
-                            height: MediaQuery.of(context).size.height,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Column(
-                                  children: [
-                                    Header(
-                                      walletState: h.displayAddress,
-                                      connectWallet: () {},
-                                    ),
-                                    Padding(
-                                      padding:
-                                          const EdgeInsets.all(defaultPadding),
-                                      child: Column(
-                                        children: [
-                                          const CustomText(
-                                              text: 'Your Schedule Id'),
-                                          CustomText(
-                                            text: h.displayScheduleID,
-                                            color: textColorBlack,
-                                          ),
-                                        ],
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Header(
+                                walletState: h.displayAddress,
+                                connectWallet: () {},
+                              ),
+                              GridView.count(
+                                crossAxisCount: 2,
+                                childAspectRatio: 5 / 2,
+                                crossAxisSpacing: 0,
+                                shrinkWrap: true,
+                                padding: EdgeInsets.only(
+                                    left: itemWidth, right: itemWidth),
+                                children: [
+                                  Column(
+                                    children: [
+                                      const CustomText(
+                                          text: 'Your Schedule Id'),
+                                      CustomText(
+                                        text: h.displayScheduleID,
+                                        color: textColorBlack,
                                       ),
-                                    ),
-                                    Padding(
-                                      padding:
-                                          const EdgeInsets.all(defaultPadding),
-                                      child: Row(
-                                        children: [
-                                          Column(
-                                            children: [
-                                              const CustomText(
-                                                  text: 'Vested Amount'),
-                                              CustomText(
-                                                text:
-                                                    '${h.vestedTotal} PPL (£####)',
-                                                color: textColorBlack,
-                                              ),
-                                            ],
-                                          ),
-                                          Column(
-                                            children: [
-                                              const CustomText(
-                                                  text: 'Fully Vested'),
-                                              CustomText(
-                                                text: '${h.endTimeDays} Days',
-                                                color: textColorBlack,
-                                              ),
-                                              CustomText2(
-                                                text: h.endTime,
-                                                color: textColorGrey,
-                                              ),
-                                            ],
-                                          )
-                                        ],
+                                    ],
+                                  ),
+                                  const SizedBox(
+                                    height: 2,
+                                  ),
+                                  Column(
+                                    children: [
+                                      const CustomText(text: 'Vested Amount'),
+                                      CustomText(
+                                        text: '${h.vestedTotal} PPL (£####)',
+                                        color: textColorBlack,
                                       ),
-                                    ),
-                                    Padding(
-                                      padding:
-                                          const EdgeInsets.all(defaultPadding),
-                                      child: Row(
-                                        children: [
-                                          Column(
-                                            children: [
-                                              const CustomText(
-                                                  text: 'Withdrawable Amount'),
-                                              CustomText(
-                                                text:
-                                                    '${h.amountReleasable} PPL (£####)',
-                                                color: textColorBlack,
-                                              ),
-                                            ],
-                                          ),
-                                          Column(
-                                            children: [
-                                              const CustomText(
-                                                  //TODO: Change this text to cliff date since User will not be allowed to withdraw early
-                                                  text:
-                                                      'Withdrawal Available in'),
-                                              CustomText(
-                                                //TODO: If end day is negative, show 0 days!!!
-                                                text: '${h.cliffEndDays} Days',
-                                                color: textColorBlack,
-                                              ),
-                                              CustomText2(
-                                                text: h.cliff,
-                                                color: textColorGrey,
-                                              ),
-                                            ],
-                                          )
-                                        ],
+                                    ],
+                                  ),
+                                  Column(
+                                    children: [
+                                      const CustomText(text: 'Fully Vested'),
+                                      CustomText(
+                                        text: '${h.endTimeDays} Days',
+                                        color: Colors.black,
                                       ),
-                                    )
-                                  ],
-                                )
-                              ],
-                            ),
+                                      CustomText2(
+                                        text: h.endTime,
+                                        color: textColorGrey,
+                                      ),
+                                    ],
+                                  ),
+                                  Column(
+                                    children: [
+                                      const CustomText(
+                                          text: 'Withdrawable Amount'),
+                                      CustomText(
+                                        text:
+                                            '${h.amountReleasable} PPL (£####)',
+                                        color: textColorBlack,
+                                      ),
+                                    ],
+                                  ),
+                                  Column(
+                                    children: [
+                                      const CustomText(
+                                          text: 'Withdrawal Available in'),
+                                      CustomText(
+                                        text: '${h.cliffEndDays} Days',
+                                        color: textColorBlack,
+                                      ),
+                                      CustomText2(
+                                        text: h.cliff,
+                                        color: textColorGrey,
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            ],
                           ),
                         )
                       : CustomText(text: text);

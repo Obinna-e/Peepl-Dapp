@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:nftapp/Widgets/customText.dart';
 import 'package:nftapp/constants/style.dart';
 
 class Header extends StatefulWidget {
@@ -19,8 +20,8 @@ class _HeaderState extends State<Header> {
       children: [
         Image.asset(
           'assets/images/logo-red.png',
-          width: 120,
-          height: 120,
+          width: 150,
+          height: 150,
         ),
         const SizedBox(
           width: itemPadding,
@@ -59,9 +60,10 @@ class _ConnectWalletState extends State<ConnectWallet> {
         ),
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: defaultPadding / 2),
-          child: Text(
-            widget.text == null ? 'Connect Wallet' : "${widget.text}",
-            style: const TextStyle(color: Colors.white),
+          child: CustomText(
+            text: widget.text == null ? 'Connect Wallet' : "${widget.text}",
+            color: Colors.white,
+            size: 18,
           ),
         ),
       ),
