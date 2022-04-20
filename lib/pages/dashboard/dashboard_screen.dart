@@ -138,7 +138,9 @@ class DashboardScreen extends StatelessWidget {
                                       const CustomText(
                                           text: 'Your Schedule Id'),
                                       CustomText(
-                                        text: h.displayScheduleID,
+                                        text: h.vestedChecker <= 0
+                                            ? 'No Vesting Schedule Detected'
+                                            : h.displayScheduleID,
                                         color: textColorBlack,
                                       ),
                                     ],
@@ -150,8 +152,8 @@ class DashboardScreen extends StatelessWidget {
                                     children: [
                                       const CustomText(text: 'Vested Amount'),
                                       CustomText(
-                                        text: h.vestedChecker < 0
-                                            ? '0 PPL'
+                                        text: h.vestedChecker < 1
+                                            ? '0 PPL (£####)'
                                             : '${h.vestedTotal} PPL (£####)',
                                         color: textColorBlack,
                                       ),
@@ -161,7 +163,9 @@ class DashboardScreen extends StatelessWidget {
                                     children: [
                                       const CustomText(text: 'Fully Vested'),
                                       CustomText(
-                                        text: '${h.endTimeDays} Days',
+                                        text: h.vestedChecker < 1
+                                            ? '0 Days'
+                                            : '${h.endTimeDays} Days',
                                         color: Colors.black,
                                       ),
                                       CustomText2(
@@ -175,9 +179,8 @@ class DashboardScreen extends StatelessWidget {
                                       const CustomText(
                                           text: 'Withdrawable Amount'),
                                       CustomText(
-                                        text: h.amountReleasable == null
-                                            ? '0 PPL (£####)'
-                                            : '${h.amountReleasable} PPL (£####)',
+                                        text:
+                                            '${h.amountReleasable} PPL (£####)',
                                         color: textColorBlack,
                                       ),
                                     ],

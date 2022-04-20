@@ -180,10 +180,14 @@ class HomeController extends GetxController {
   }
 
   computeAmountReleasable(String id) async {
-    final BigInt releaseable =
-        await vestingContract.call<BigInt>('computeReleasableAmount', [id]);
+    try {
+      final BigInt releaseable =
+          await vestingContract.call<BigInt>('computeReleasableAmount', [id]);
 
-    amountReleasable = toDecimal(releaseable, 18);
+      amountReleasable = toDecimal(releaseable, 18);
+    } catch (e) {
+      amountReleasable = 0;
+    }
   }
 
   getSchedulesInfo() async {
