@@ -150,7 +150,9 @@ class DashboardScreen extends StatelessWidget {
                                     children: [
                                       const CustomText(text: 'Vested Amount'),
                                       CustomText(
-                                        text: '${h.vestedTotal} PPL (£####)',
+                                        text: h.vestedChecker < 0
+                                            ? '0 PPL'
+                                            : '${h.vestedTotal} PPL (£####)',
                                         color: textColorBlack,
                                       ),
                                     ],
@@ -173,18 +175,20 @@ class DashboardScreen extends StatelessWidget {
                                       const CustomText(
                                           text: 'Withdrawable Amount'),
                                       CustomText(
-                                        text:
-                                            '${h.amountReleasable} PPL (£####)',
+                                        text: h.amountReleasable == null
+                                            ? '0 PPL (£####)'
+                                            : '${h.amountReleasable} PPL (£####)',
                                         color: textColorBlack,
                                       ),
                                     ],
                                   ),
                                   Column(
                                     children: [
-                                      const CustomText(
-                                          text: 'Withdrawal Available in'),
+                                      const CustomText(text: 'Cliff Ends In'),
                                       CustomText(
-                                        text: '${h.cliffEndDays} Days',
+                                        text: h.cliffChecker < 0
+                                            ? '0 Days'
+                                            : '${h.cliffEndDays} Days',
                                         color: textColorBlack,
                                       ),
                                       CustomText2(

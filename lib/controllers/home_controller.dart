@@ -90,6 +90,8 @@ class HomeController extends GetxController {
   String endTimeDays = '';
   String cliff = '';
   String cliffEndDays = '';
+  int cliffChecker = 1;
+  int vestedChecker = 1;
   var vestedTotal;
   bool revoked = true;
 
@@ -122,6 +124,7 @@ class HomeController extends GetxController {
     final total = int.parse(schedule[7].toString());
 
     vestedTotal = toDecimal(BigInt.parse(schedule[7].toString()), 18);
+    vestedChecker = int.parse(vestedTotal.toString());
     final tempStart = int.parse(schedule[3].toString());
     final tempDuration = int.parse(schedule[4].toString());
 
@@ -138,6 +141,7 @@ class HomeController extends GetxController {
         int.parse(schedule[2].toString()) * 1000);
     endTimeDays = daysBetween(DateTime.now(), tempEnd);
     cliffEndDays = daysBetween(DateTime.now(), tempCliff);
+    cliffChecker = int.parse(cliffEndDays);
 
     update();
   }
@@ -150,7 +154,7 @@ class HomeController extends GetxController {
           'computeVestingScheduleIdForAddressAndIndex',
           [address, BigInt.from(i)]);
       schedules.add(vestingScheduleId);
-      print(schedules);
+
       //To add schedule dropdown list
       // scheduleIDdropdown.add(scheduleIDs.length.toString());
     }

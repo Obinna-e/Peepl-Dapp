@@ -28,7 +28,7 @@ class MyApp extends StatelessWidget {
       getPages: [
         GetPage(name: RootRoute, page: () => SiteLayout()),
       ],
-      title: 'Normi',
+      title: 'Peepl',
       theme: ThemeData(
         primaryColor: const Color(0xFF292B5E),
         colorScheme: ColorScheme.fromSwatch().copyWith(
