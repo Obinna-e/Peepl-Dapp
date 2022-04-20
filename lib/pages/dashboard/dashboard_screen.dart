@@ -163,13 +163,15 @@ class DashboardScreen extends StatelessWidget {
                                     children: [
                                       const CustomText(text: 'Fully Vested'),
                                       CustomText(
-                                        text: h.vestedChecker < 1
+                                        text: h.endTimeChecker < 1
                                             ? '0 Days'
                                             : '${h.endTimeDays} Days',
                                         color: Colors.black,
                                       ),
                                       CustomText2(
-                                        text: h.endTime,
+                                        text: h.startTimeChecker == 0
+                                            ? 'No Schedules found'
+                                            : h.endTime,
                                         color: textColorGrey,
                                       ),
                                     ],

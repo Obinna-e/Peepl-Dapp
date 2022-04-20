@@ -92,6 +92,8 @@ class HomeController extends GetxController {
   String cliffEndDays = '';
   int cliffChecker = 1;
   int vestedChecker = 1;
+  int endTimeChecker = 1;
+  int startTimeChecker = 1;
   var vestedTotal;
   bool revoked = true;
 
@@ -119,6 +121,8 @@ class HomeController extends GetxController {
       ),
     );
 
+    // startTimeChecker = int.parse(startTime);
+
     cliff = readTimestamp(int.parse(schedule[2].toString()));
 
     final total = int.parse(schedule[7].toString());
@@ -140,6 +144,7 @@ class HomeController extends GetxController {
     DateTime tempCliff = DateTime.fromMillisecondsSinceEpoch(
         int.parse(schedule[2].toString()) * 1000);
     endTimeDays = daysBetween(DateTime.now(), tempEnd);
+    endTimeChecker = int.parse(endTimeDays);
     cliffEndDays = daysBetween(DateTime.now(), tempCliff);
     cliffChecker = int.parse(cliffEndDays);
 
