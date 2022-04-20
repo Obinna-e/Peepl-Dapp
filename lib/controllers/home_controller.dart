@@ -150,7 +150,7 @@ class HomeController extends GetxController {
           'computeVestingScheduleIdForAddressAndIndex',
           [address, BigInt.from(i)]);
       schedules.add(vestingScheduleId);
-
+      print(schedules);
       //To add schedule dropdown list
       // scheduleIDdropdown.add(scheduleIDs.length.toString());
     }
