@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:nftapp/Widgets/customText.dart';
 import 'package:nftapp/constants/style.dart';
+import 'package:nftapp/helpers/responsiveness.dart';
 
 class Header extends StatefulWidget {
   final String? walletState;
@@ -23,8 +24,10 @@ class _HeaderState extends State<Header> {
           width: 150,
           height: 150,
         ),
-        const SizedBox(
-          width: itemPadding + 80,
+        SizedBox(
+          width: !ResponsiveWidget.isSmallScreen(context)
+              ? itemPadding + 80
+              : itemPadding - 80,
         ),
         ConnectWallet(
           text: widget.walletState,

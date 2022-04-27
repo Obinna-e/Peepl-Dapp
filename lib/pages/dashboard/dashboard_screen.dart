@@ -5,6 +5,7 @@ import 'package:nftapp/Widgets/header.dart';
 
 import 'package:nftapp/constants/style.dart';
 import 'package:nftapp/controllers/home_controller.dart';
+import 'package:nftapp/helpers/responsiveness.dart';
 
 class DashboardScreen extends StatelessWidget {
   @override
@@ -42,7 +43,10 @@ class DashboardScreen extends StatelessWidget {
                             ),
                             GridView.count(
                               crossAxisCount: 2,
-                              childAspectRatio: 5 / 2,
+                              childAspectRatio:
+                                  !ResponsiveWidget.isSmallScreen(context)
+                                      ? 5 / 2
+                                      : 1 / 2,
                               crossAxisSpacing: 0,
                               shrinkWrap: true,
                               padding: EdgeInsets.only(
@@ -126,7 +130,10 @@ class DashboardScreen extends StatelessWidget {
                               ),
                               GridView.count(
                                 crossAxisCount: 2,
-                                childAspectRatio: 5 / 2,
+                                childAspectRatio:
+                                    !ResponsiveWidget.isSmallScreen(context)
+                                        ? 5 / 2
+                                        : 1 / 2,
                                 crossAxisSpacing: 0,
                                 shrinkWrap: true,
                                 padding: EdgeInsets.only(
