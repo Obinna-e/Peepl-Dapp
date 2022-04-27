@@ -9,7 +9,7 @@ class LargeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Expanded(
             child: localNavigator(),
