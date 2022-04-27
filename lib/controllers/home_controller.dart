@@ -5,6 +5,8 @@ import 'package:nftapp/helpers/dateTimeFormat.dart';
 import 'package:nftapp/utils.dart';
 
 class HomeController extends GetxController {
+  static HomeController instance = Get.find();
+
   bool get isEnabled => ethereum != null;
 
   bool get isInOperatingChain => currentChain == OPERATING_CHAIN;

@@ -12,8 +12,8 @@ const walletPageRoute = "/wallet";
 const chartingPageDisplayName = "Chart";
 const chartingPageRoute = "/chart";
 
-const timerPageDisplayName = "Timer";
-const timerPageRoute = "/timer";
+const vestingPageDisplayName = "Vesting";
+const vestingPageRoute = "/vesting";
 
 const settingsPageDisplayName = "Settings";
 const settingsPageRoute = "/settings";
@@ -30,6 +30,6 @@ List<MenuItem> sideMenuItems = [
   MenuItem(purchasePageDisplayName, purchasePageRoute),
   MenuItem(walletPageDisplayName, walletPageRoute),
   MenuItem(chartingPageDisplayName, chartingPageRoute),
-  MenuItem(timerPageDisplayName, timerPageRoute),
+  MenuItem(vestingPageDisplayName, vestingPageRoute),
   MenuItem(settingsPageDisplayName, settingsPageRoute),
 ];

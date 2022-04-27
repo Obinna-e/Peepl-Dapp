@@ -112,7 +112,6 @@ class DashboardScreen extends StatelessWidget {
                     );
                   } else {
                     text = 'Your browser is not Supported';
-                    return CustomText(text: text);
                   }
 
                   return (h.isConnected && h.isInOperatingChain)
