@@ -61,8 +61,8 @@ class HomeController extends GetxController {
     super.onInit();
   }
 
-  final vestingContract =
-      Contract('0x4f95788Bc7Ba96337CEf7dbdCC1216Fa672E0051', abi, provider!);
+  final vestingContract = Contract('0x4f95788Bc7Ba96337CEf7dbdCC1216Fa672E0051',
+      Interface(abi), provider!.getSigner());
 
   final contractAddress = '0x4f95788Bc7Ba96337CEf7dbdCC1216Fa672E0051';
 
@@ -98,6 +98,7 @@ class HomeController extends GetxController {
   int startTimeChecker = 1;
   var vestedTotal;
   bool revoked = true;
+  int isTime = -1;
 
   List<String> scheduleIDs = [];
   List<String> scheduleIDdropdown = [];
@@ -149,6 +150,9 @@ class HomeController extends GetxController {
     endTimeChecker = int.parse(endTimeDays);
     cliffEndDays = daysBetween(DateTime.now(), tempCliff);
     cliffChecker = int.parse(cliffEndDays);
+    final currentTime = DateTime.now().millisecondsSinceEpoch;
+
+    isTime = currentTime.compareTo((tempStart + tempDuration) * 1000);
 
     update();
   }
@@ -168,15 +172,6 @@ class HomeController extends GetxController {
     return schedules;
 
     // update();
-  }
-
-  getTokenBalance() async {
-    testToken ??= ContractERC20(FEQUITY_ADDRESS, provider!.getSigner());
-    yourTokenBalance = await testToken!.balanceOf(currentAddress);
-
-    displayBalance = toDecimal(yourTokenBalance, 18);
-
-    update();
   }
 
   getVestingContractInformation() async {
@@ -212,9 +207,10 @@ class HomeController extends GetxController {
     // await computeAmountReleasable(BigInt.parse(scheduleIDs[0]));
   }
 
-  release(BigInt schedule) async {
-    await vestingContract.call<BigInt>('Released', [
-      schedule,
-    ]);
+  release() async {
+    final BigInt releaseable = await vestingContract
+        .call<BigInt>('computeReleasableAmount', [scheduleIDs[0]]);
+    await vestingContract
+        .call<BigInt>('release', [scheduleIDs[0], releaseable]);
   }
 }
