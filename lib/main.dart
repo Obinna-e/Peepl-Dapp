@@ -13,6 +13,7 @@ import 'package:google_fonts/google_fonts.dart';
 void main() {
   Get.put(HomeController());
   Get.put(NavigationController());
+
   runApp(const MyApp());
 }
 
