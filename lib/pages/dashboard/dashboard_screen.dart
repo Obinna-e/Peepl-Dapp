@@ -205,18 +205,14 @@ class DashboardScreen extends StatelessWidget {
                                       ],
                                     ),
                                     Column(
-                                      children: [
-                                        const CustomText(
+                                      children: const [
+                                        CustomText(
                                             text: 'Withdrawal Available in'),
-                                        Expanded(
-                                          child: Container(
-                                            child: const CustomText(
-                                              text: '##### Days',
-                                              color: textColorBlack,
-                                            ),
-                                          ),
+                                        CustomText(
+                                          text: '##### Days',
+                                          color: textColorBlack,
                                         ),
-                                        const Expanded(
+                                        Expanded(
                                           child: CustomText2(
                                             text: 'YYYY-MM-DD',
                                             color: textColorGrey,
@@ -259,16 +255,21 @@ class DashboardScreen extends StatelessWidget {
                                               children: [
                                                 const CustomText(
                                                     text: 'Your Schedule Id'),
-                                                CustomText(
-                                                  text: Get.find<ContractController>()
-                                                              .vestedChecker <=
-                                                          0
-                                                      ? 'No Vesting Schedule Detected'
-                                                      : Get.find<
-                                                              ContractController>()
-                                                          .displayScheduleID,
-                                                  color: textColorBlack,
-                                                ),
+                                                Get.find<ContractController>()
+                                                        .isLoading
+                                                    ? const CircularProgressIndicator(
+                                                        color: Colors.red,
+                                                      )
+                                                    : CustomText(
+                                                        text: Get.find<ContractController>()
+                                                                    .vestedChecker <=
+                                                                0
+                                                            ? 'No Vesting Schedule Detected'
+                                                            : Get.find<
+                                                                    ContractController>()
+                                                                .displayScheduleID,
+                                                        color: textColorBlack,
+                                                      ),
                                               ],
                                             ),
                                             const SizedBox(
@@ -280,14 +281,19 @@ class DashboardScreen extends StatelessWidget {
                                               children: [
                                                 const CustomText(
                                                     text: 'Vested Amount'),
-                                                CustomText(
-                                                  text: Get.find<ContractController>()
-                                                              .vestedChecker <
-                                                          1
-                                                      ? '0 PPL (£####)'
-                                                      : '${Get.find<ContractController>().vestedTotal} PPL (£####)',
-                                                  color: textColorBlack,
-                                                ),
+                                                Get.find<ContractController>()
+                                                        .isLoading
+                                                    ? const CircularProgressIndicator(
+                                                        color: Colors.red,
+                                                      )
+                                                    : CustomText(
+                                                        text: Get.find<ContractController>()
+                                                                    .vestedChecker <
+                                                                1
+                                                            ? '0 PPL (£####)'
+                                                            : '${Get.find<ContractController>().vestedTotal} PPL (£####)',
+                                                        color: textColorBlack,
+                                                      ),
                                               ],
                                             ),
                                             const SizedBox(
@@ -299,24 +305,34 @@ class DashboardScreen extends StatelessWidget {
                                               children: [
                                                 const CustomText(
                                                     text: 'Fully Vested'),
-                                                CustomText(
-                                                  text: Get.find<ContractController>()
-                                                              .endTimeChecker <
-                                                          1
-                                                      ? '0 Days'
-                                                      : '${Get.find<ContractController>().endTimeDays} Days',
-                                                  color: Colors.black,
-                                                ),
-                                                CustomText2(
-                                                  text: Get.find<ContractController>()
-                                                              .startTimeChecker ==
-                                                          0
-                                                      ? 'No Schedules found'
-                                                      : Get.find<
-                                                              ContractController>()
-                                                          .endTime,
-                                                  color: textColorGrey,
-                                                ),
+                                                Get.find<ContractController>()
+                                                        .isLoading
+                                                    ? const CircularProgressIndicator(
+                                                        color: Colors.red,
+                                                      )
+                                                    : CustomText(
+                                                        text: Get.find<ContractController>()
+                                                                    .endTimeChecker <
+                                                                1
+                                                            ? '0 Days'
+                                                            : '${Get.find<ContractController>().endTimeDays} Days',
+                                                        color: Colors.black,
+                                                      ),
+                                                Get.find<ContractController>()
+                                                        .isLoading
+                                                    ? const CircularProgressIndicator(
+                                                        color: Colors.red,
+                                                      )
+                                                    : CustomText2(
+                                                        text: Get.find<ContractController>()
+                                                                    .startTimeChecker ==
+                                                                0
+                                                            ? 'No Schedules found'
+                                                            : Get.find<
+                                                                    ContractController>()
+                                                                .endTime,
+                                                        color: textColorGrey,
+                                                      ),
                                               ],
                                             ),
                                             const SizedBox(
@@ -329,6 +345,7 @@ class DashboardScreen extends StatelessWidget {
                                                 const CustomText(
                                                     text:
                                                         'Withdrawable Amount'),
+                                                //TODO: LOGIC that waits for amount released
                                                 CustomText(
                                                   text:
                                                       '${Get.find<ContractController>().amountReleasable} PPL (£####)',
@@ -346,14 +363,19 @@ class DashboardScreen extends StatelessWidget {
                                                 const CustomText(
                                                     text:
                                                         'Withdrawal Available in'),
-                                                CustomText(
-                                                  text: Get.find<ContractController>()
-                                                              .cliffChecker <
-                                                          0
-                                                      ? '0 Days'
-                                                      : '${Get.find<ContractController>().cliffEndDays} Days',
-                                                  color: textColorBlack,
-                                                ),
+                                                Get.find<ContractController>()
+                                                        .isLoading
+                                                    ? const CircularProgressIndicator(
+                                                        color: Colors.red,
+                                                      )
+                                                    : CustomText(
+                                                        text: Get.find<ContractController>()
+                                                                    .cliffChecker <
+                                                                0
+                                                            ? '0 Days'
+                                                            : '${Get.find<ContractController>().cliffEndDays} Days',
+                                                        color: textColorBlack,
+                                                      ),
                                                 CustomText2(
                                                   text: Get.find<
                                                           ContractController>()
@@ -362,41 +384,39 @@ class DashboardScreen extends StatelessWidget {
                                                 ),
                                               ],
                                             ),
-                                            if (Get.find<ContractController>()
-                                                        .isTime >=
-                                                    0 &&
-                                                Get.find<ContractController>()
-                                                        .vestedChecker >
-                                                    0)
-                                              InkWell(
-                                                onTap: Get.find<
-                                                        ContractController>()
-                                                    .release,
-                                                child: Container(
-                                                  padding: const EdgeInsets.all(
-                                                      defaultPadding * 0.75),
-                                                  decoration:
-                                                      const BoxDecoration(
-                                                    color: callToAction,
-                                                    borderRadius:
-                                                        BorderRadius.all(
-                                                      Radius.circular(10),
-                                                    ),
+                                            InkWell(
+                                              onTap: Get.find<ContractController>()
+                                                              .isTime >=
+                                                          0 &&
+                                                      Get.find<ContractController>()
+                                                              .amountReleasable !=
+                                                          0
+                                                  ? () {}
+                                                  : Get.find<
+                                                          ContractController>()
+                                                      .release,
+                                              child: Container(
+                                                padding: const EdgeInsets.all(
+                                                    defaultPadding * 0.75),
+                                                decoration: const BoxDecoration(
+                                                  color: callToAction,
+                                                  borderRadius:
+                                                      BorderRadius.all(
+                                                    Radius.circular(10),
                                                   ),
-                                                  child: const Padding(
-                                                    padding:
-                                                        EdgeInsets.symmetric(
-                                                            horizontal:
-                                                                defaultPadding /
-                                                                    2),
-                                                    child: CustomText(
-                                                      text: "Withdraw",
-                                                      color: Colors.white,
-                                                      size: 18,
-                                                    ),
+                                                ),
+                                                child: const Padding(
+                                                  padding: EdgeInsets.symmetric(
+                                                      horizontal:
+                                                          defaultPadding / 2),
+                                                  child: CustomText(
+                                                    text: "Withdraw",
+                                                    color: Colors.white,
+                                                    size: 18,
                                                   ),
                                                 ),
                                               ),
+                                            ),
                                           ],
                                         ),
                                       ),
@@ -422,16 +442,21 @@ class DashboardScreen extends StatelessWidget {
                                             children: [
                                               const CustomText(
                                                   text: 'Your Schedule Id'),
-                                              CustomText(
-                                                text: Get.find<ContractController>()
-                                                            .vestedChecker <=
-                                                        0
-                                                    ? 'No Vesting Schedule Detected'
-                                                    : Get.find<
-                                                            ContractController>()
-                                                        .displayScheduleID,
-                                                color: textColorBlack,
-                                              ),
+                                              Get.find<ContractController>()
+                                                      .isLoading
+                                                  ? const CircularProgressIndicator(
+                                                      color: Colors.red,
+                                                    )
+                                                  : CustomText(
+                                                      text: Get.find<ContractController>()
+                                                                  .vestedChecker <=
+                                                              0
+                                                          ? 'No Vesting Schedule Detected'
+                                                          : Get.find<
+                                                                  ContractController>()
+                                                              .displayScheduleID,
+                                                      color: textColorBlack,
+                                                    ),
                                             ],
                                           ),
                                           const SizedBox(
@@ -441,14 +466,19 @@ class DashboardScreen extends StatelessWidget {
                                             children: [
                                               const CustomText(
                                                   text: 'Vested Amount'),
-                                              CustomText(
-                                                text: Get.find<ContractController>()
-                                                            .vestedChecker <
-                                                        1
-                                                    ? '0 PPL (£####)'
-                                                    : '${Get.find<ContractController>().vestedTotal} PPL (£####)',
-                                                color: textColorBlack,
-                                              ),
+                                              Get.find<ContractController>()
+                                                      .isLoading
+                                                  ? const CircularProgressIndicator(
+                                                      color: Colors.red,
+                                                    )
+                                                  : CustomText(
+                                                      text: Get.find<ContractController>()
+                                                                  .vestedChecker <
+                                                              1
+                                                          ? '0 PPL (£####)'
+                                                          : '${Get.find<ContractController>().vestedTotal} PPL (£####)',
+                                                      color: textColorBlack,
+                                                    ),
                                             ],
                                           ),
                                           Column(
@@ -456,36 +486,52 @@ class DashboardScreen extends StatelessWidget {
                                               const CustomText(
                                                   text: 'Fully Vested'),
                                               Container(
-                                                child: CustomText(
-                                                  text: Get.find<ContractController>()
-                                                              .endTimeChecker <
-                                                          1
-                                                      ? '0 Days'
-                                                      : '${Get.find<ContractController>().endTimeDays} Days',
-                                                  color: Colors.black,
-                                                ),
-                                              ),
-                                              CustomText2(
-                                                text: Get.find<ContractController>()
-                                                            .startTimeChecker ==
-                                                        0
-                                                    ? 'No Schedules found'
-                                                    : Get.find<
+                                                child: Get.find<
                                                             ContractController>()
-                                                        .endTime,
-                                                color: textColorGrey,
+                                                        .isLoading
+                                                    ? const CircularProgressIndicator(
+                                                        color: Colors.red,
+                                                      )
+                                                    : CustomText(
+                                                        text: Get.find<ContractController>()
+                                                                    .endTimeChecker <
+                                                                1
+                                                            ? '0 Days'
+                                                            : '${Get.find<ContractController>().endTimeDays} Days',
+                                                        color: Colors.black,
+                                                      ),
                                               ),
+                                              Get.find<ContractController>()
+                                                      .isLoading
+                                                  ? const CircularProgressIndicator(
+                                                      color: Colors.red,
+                                                    )
+                                                  : CustomText2(
+                                                      text: Get.find<ContractController>()
+                                                                  .startTimeChecker ==
+                                                              0
+                                                          ? 'No Schedules found'
+                                                          : Get.find<
+                                                                  ContractController>()
+                                                              .endTime,
+                                                      color: textColorGrey,
+                                                    ),
                                             ],
                                           ),
                                           Column(
                                             children: [
                                               const CustomText(
                                                   text: 'Withdrawable Amount'),
-                                              CustomText(
-                                                text:
-                                                    '${Get.find<ContractController>().amountReleasable} PPL (£####)',
-                                                color: textColorBlack,
-                                              ),
+                                              Get.find<ContractController>()
+                                                      .isLoading
+                                                  ? const CircularProgressIndicator(
+                                                      color: Colors.red,
+                                                    )
+                                                  : CustomText(
+                                                      text:
+                                                          '${Get.find<ContractController>().amountReleasable} PPL (£####)',
+                                                      color: textColorBlack,
+                                                    ),
                                             ],
                                           ),
                                           Column(
@@ -493,20 +539,30 @@ class DashboardScreen extends StatelessWidget {
                                               const CustomText(
                                                   text:
                                                       'Withdrawal Available in'),
-                                              CustomText(
-                                                text: Get.find<ContractController>()
-                                                            .cliffChecker <
-                                                        0
-                                                    ? '0 Days'
-                                                    : '${Get.find<ContractController>().cliffEndDays} Days',
-                                                color: textColorBlack,
-                                              ),
-                                              CustomText2(
-                                                text: Get.find<
-                                                        ContractController>()
-                                                    .cliff,
-                                                color: textColorGrey,
-                                              ),
+                                              Get.find<ContractController>()
+                                                      .isLoading
+                                                  ? const CircularProgressIndicator(
+                                                      color: Colors.red,
+                                                    )
+                                                  : CustomText(
+                                                      text: Get.find<ContractController>()
+                                                                  .cliffChecker <
+                                                              0
+                                                          ? '0 Days'
+                                                          : '${Get.find<ContractController>().cliffEndDays} Days',
+                                                      color: textColorBlack,
+                                                    ),
+                                              Get.find<ContractController>()
+                                                      .isLoading
+                                                  ? const CircularProgressIndicator(
+                                                      color: Colors.red,
+                                                    )
+                                                  : CustomText2(
+                                                      text: Get.find<
+                                                              ContractController>()
+                                                          .cliff,
+                                                      color: textColorGrey,
+                                                    ),
                                             ],
                                           ),
                                         ],
