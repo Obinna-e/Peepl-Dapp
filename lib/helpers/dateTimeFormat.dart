@@ -8,6 +8,14 @@ String readTimestamp(int timestamp) {
   return dateTime24;
 }
 
+DateTime readTimeStampToDate(int timestamp) {
+  return DateTime.fromMillisecondsSinceEpoch(timestamp * 1000);
+}
+
+String dateFormatter(DateTime timeToFormat) {
+  return DateFormat('dd/MM/yyyy, HH:mm').format(timeToFormat);
+}
+
 String daysBetween(DateTime from, DateTime to) {
   from = DateTime(from.year, from.month, from.day);
 

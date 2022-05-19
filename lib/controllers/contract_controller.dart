@@ -47,23 +47,22 @@ class ContractController extends GetxController {
 
     hasVestingSchedule = true;
 
-    final String scheduleStart = readTimestamp(
+    final DateTime scheduleStart = readTimeStampToDate(
       int.parse(
         schedule[3].toString(),
       ),
     );
 
-    final String scheduleDuration = readTimestamp(
+    final DateTime scheduleDuration = readTimeStampToDate(
       int.parse(
         schedule[4].toString(),
       ),
     );
 
-    final String scheduleEnd =
-        (DateTime.parse(scheduleStart).millisecondsSinceEpoch + DateTime.parse(scheduleDuration).millisecondsSinceEpoch)
-            .toString();
+    final DateTime scheduleEnd = DateTime.fromMillisecondsSinceEpoch(
+        scheduleStart.millisecondsSinceEpoch + scheduleDuration.millisecondsSinceEpoch);
 
-    final String cliff = readTimestamp(
+    final DateTime cliff = readTimeStampToDate(
       int.parse(
         schedule[2].toString(),
       ),
@@ -73,10 +72,10 @@ class ContractController extends GetxController {
 
     vestedChecker = vestedTotal == Decimal.zero ? false : true;
 
-    endTimeDays = daysBetweenInt(DateTime.now(), DateTime.parse(scheduleEnd));
-    cliffEndDays = daysBetweenInt(DateTime.now(), DateTime.parse(cliff));
+    endTimeDays = daysBetweenInt(DateTime.now(), scheduleEnd);
+    cliffEndDays = daysBetweenInt(DateTime.now(), cliff);
 
-    isContractFullyVested = DateTime.now().compareTo(DateTime.parse(scheduleEnd)) > 0 ? true : false;
+    isContractFullyVested = DateTime.now().compareTo(scheduleEnd) > 0 ? true : false;
 
     update();
   }
@@ -94,7 +93,7 @@ class ContractController extends GetxController {
   }
 
   Future<BigInt> getUserVestingCount(String beneficiary) async {
-    return vestingContract.call('getVestingSchedulesCountByBeneficiary', [beneficiary]) as BigInt;
+    return vestingContract.call('getVestingSchedulesCountByBeneficiary', [beneficiary]);
   }
 
   Future<BigInt> computeAmountReleasable(String id) async {
@@ -107,7 +106,7 @@ class ContractController extends GetxController {
 
       computeAmountReleasable(scheduleIDs[0]).then(
         (value) {
-          currentAmountReleasable = toDecimal(value, 18);
+          currentAmountReleasable = toDecimal(BigInt.one, 18);
           isLoading = false;
           update();
         },
