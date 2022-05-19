@@ -1,184 +1,124 @@
+import 'package:decimal/decimal.dart';
 import 'package:flutter_web3/flutter_web3.dart';
 import 'package:get/get.dart';
+import 'package:nftapp/constants/addresses.dart';
 
-import 'package:nftapp/controllers/home_controller.dart';
 import 'package:nftapp/helpers/abi.dart';
 import 'package:nftapp/helpers/dateTimeFormat.dart';
 import 'package:nftapp/helpers/decimal_handler.dart';
 
 class ContractController extends GetxController {
-  final HomeController homeController = Get.put(HomeController());
+  ContractController(this.currentWalletAddress);
 
-  String displayScheduleID = '';
-  final vestingContract = Contract('0xfC75C482058d7f521Db493D103247953d5C9d2AF',
-      Interface(abi), provider!.getSigner());
+  String currentWalletAddress;
 
-  final contractAddress = '0xfC75C482058d7f521Db493D103247953d5C9d2AF';
+  final vestingContract = Contract(VESTING_CONTRACT, Interface(abi), provider!.getSigner());
 
-  static const TOKENVESTING_ADDRESS =
-      '0xfC75C482058d7f521Db493D103247953d5C9d2AF';
+  bool hasVestingSchedule = false;
+  Rx<Decimal> currentAmountReleasable = Decimal.zero.obs;
 
-  static const PEEPL_ADDRESS = '0xa2C7CdB72d177f6259cD12a9A06Fdfd9625419D4';
+  late DateTime scheduleStart;
+  Rx<DateTime> scheduleEnd = DateTime.now().obs;
+  Rx<DateTime> cliff = DateTime.now().obs;
 
-  ContractERC20? testToken;
+  RxInt endTimeDays = 0.obs;
+  RxInt cliffEndDays = 0.obs;
 
-  BigInt yourTokenBalance = BigInt.zero;
+  bool vestedChecker = false;
+
+  Rx<Decimal> vestedTotal = Decimal.zero.obs;
 
   int scheduleCount = 0;
 
-  Contract? tokenVesting;
+  bool isContractFullyVested = false;
 
-  var amountReleasable;
-
-  BigInt withdrawableAmount = BigInt.zero;
-
-  var displayBalance;
-
-  var displayID;
-
-  String startTime = '';
-  String endTime = '';
-  String endTimeDays = '';
-  String cliff = '';
-  String cliffEndDays = '';
-  int cliffChecker = 1;
-  int vestedChecker = 1;
-  int endTimeChecker = 1;
-  int startTimeChecker = 1;
-  var vestedTotal;
-  bool revoked = true;
-  int isTime = -1;
   bool isLoading = false;
 
   List<String> scheduleIDs = [];
-  List<String> scheduleIDdropdown = [];
 
-  init() {
-    getVestingContractInformation();
-  }
+  RxString currentScheduleID = "".obs;
 
-  @override
-  void onInit() {
-    init();
-    super.onInit();
-  }
-//   //Contract Methods
+  // BigInt withdrawableAmount = BigInt.zero;
+  // bool revoked = true;
+  // int scheduleCount = 0;
 
-  getVestingSchedulesCountByBeneficiary() async {
-    final BigInt response = await vestingContract.call<BigInt>(
-        'getVestingSchedulesCountByBeneficiary',
-        [Get.find<HomeController>().currentAddress]);
+  void getScheduleByAddressAndIndex({required int id, required String beneficaryAddress}) async {
+    isLoading = true;
 
-    scheduleCount = response.toInt();
-    update();
-  }
+    final schedule = await vestingContract.call('getVestingScheduleByAddressAndIndex', [beneficaryAddress, id]);
 
-  //TODO: Move to a separate file e.g contract controller
-  getScheduleByAddressAndIndex(int id, String beneficiary) async {
-    final schedule = await vestingContract
-        .call('getVestingScheduleByAddressAndIndex', [beneficiary, id]);
+    hasVestingSchedule = true;
 
-    startTime = readTimestamp(
+    scheduleStart = readTimeStampToDate(
       int.parse(
         schedule[3].toString(),
       ),
     );
 
-    // startTimeChecker = int.parse(startTime);
+    final DateTime scheduleDuration = readTimeStampToDate(
+      int.parse(
+        schedule[4].toString(),
+      ),
+    );
 
-    cliff = readTimestamp(int.parse(schedule[2].toString()));
+    scheduleEnd(DateTime.fromMillisecondsSinceEpoch(
+        scheduleStart.millisecondsSinceEpoch + scheduleDuration.millisecondsSinceEpoch));
 
-    final total = int.parse(schedule[7].toString());
+    cliff(readTimeStampToDate(
+      int.parse(
+        schedule[2].toString(),
+      ),
+    ));
 
-    vestedTotal = toDecimal(BigInt.parse(schedule[7].toString()), 18);
-    vestedChecker = int.parse(vestedTotal.toString());
-    final tempStart = int.parse(schedule[3].toString());
-    final tempDuration = int.parse(schedule[4].toString());
+    vestedTotal(toDecimal(BigInt.parse(schedule[7].toString()), 18));
 
-//TODO: Add error for no vesting schedule
+    vestedChecker = vestedTotal.value == Decimal.zero ? false : true;
 
-    endTime = readTimestamp(tempStart + tempDuration);
+    endTimeDays(daysBetweenInt(DateTime.now(), scheduleEnd.value));
+    cliffEndDays(daysBetweenInt(DateTime.now(), cliff.value));
 
-    DateTime tempEnd =
-        DateTime.fromMillisecondsSinceEpoch((tempStart + tempDuration) * 1000);
-    DateTime tempStartTime = DateTime.fromMillisecondsSinceEpoch(
-        int.parse(schedule[3].toString()) * 1000);
-
-    DateTime tempCliff = DateTime.fromMillisecondsSinceEpoch(
-        int.parse(schedule[2].toString()) * 1000);
-    endTimeDays = daysBetween(DateTime.now(), tempEnd);
-    endTimeChecker = int.parse(endTimeDays);
-    cliffEndDays = daysBetween(DateTime.now(), tempCliff);
-    cliffChecker = int.parse(cliffEndDays);
-    final currentTime = DateTime.now().millisecondsSinceEpoch;
-
-    isTime = currentTime.compareTo((tempStart + tempDuration) * 1000);
+    isContractFullyVested = DateTime.now().compareTo(scheduleEnd.value) > 0 ? true : false;
 
     update();
   }
 
-  Future<List<String>> getUserVestingSchedulesList(
-      int amountOfSchedules, String address) async {
+  Future<List<String>> getUserVestingSchedulesList() async {
+    BigInt scheduleCount = await getUserVestingCount(currentWalletAddress);
     List<String> schedules = [];
-    for (int i = 0; i < amountOfSchedules; i++) {
-      final vestingScheduleId = await vestingContract.call(
-          'computeVestingScheduleIdForAddressAndIndex',
-          [address, BigInt.from(i)]);
-      schedules.add(vestingScheduleId);
 
-      //To add schedule dropdown list
-      // scheduleIDdropdown.add(scheduleIDs.length.toString());
+    for (int i = 0; i < scheduleCount.toInt(); i++) {
+      final vestingScheduleId = await vestingContract
+          .call('computeVestingScheduleIdForAddressAndIndex', [currentWalletAddress, BigInt.from(i)]);
+      schedules.add(vestingScheduleId);
     }
     return schedules;
-
-    // update();
   }
 
-  getVestingContractInformation() async {
-    isLoading = true;
-    withdrawableAmount =
-        await vestingContract.call<BigInt>('getWithdrawableAmount');
-
-    update();
+  Future<BigInt> getUserVestingCount(String beneficiary) async {
+    return vestingContract.call('getVestingSchedulesCountByBeneficiary', [beneficiary]);
   }
 
-  computeAmountReleasable(String id) async {
+  Future<BigInt> computeAmountReleasable(String id) async {
+    return await vestingContract.call<BigInt>('computeReleasableAmount', [id]);
+  }
+
+  Future<bool> getSchedulesInfo() async {
     try {
-      final BigInt releaseable =
-          await vestingContract.call<BigInt>('computeReleasableAmount', [id]);
+      final List<String> scheduleIDs = await getUserVestingSchedulesList();
 
-      amountReleasable = toDecimal(releaseable, 18);
-    } catch (e) {
-      amountReleasable = 0;
-    } finally {
+      currentAmountReleasable(toDecimal(await computeAmountReleasable(scheduleIDs[0]), 18));
+      isLoading = false;
+      currentScheduleID(scheduleIDs[0].substring(0, 5) + "..." + scheduleIDs[0].substring(61, 66));
       update();
-    }
-  }
-
-  getSchedulesInfo() async {
-    try {
-      final List<String> lists = await getUserVestingSchedulesList(
-          1, Get.find<HomeController>().currentAddress);
-
-      scheduleIDs = List.from(lists);
-      displayScheduleID = scheduleIDs[0].substring(0, 5) +
-          "..." +
-          scheduleIDs[0].substring(61, 66);
+      return Future.value(true);
     } catch (error) {
       print(error);
-    } finally {
-      computeAmountReleasable(scheduleIDs[0]);
-      isLoading = false;
-
-      update();
+      return Future.value(false);
     }
-    // await computeAmountReleasable(BigInt.parse(scheduleIDs[0]));
   }
 
-  release() async {
-    final BigInt releaseable = await vestingContract
-        .call<BigInt>('computeReleasableAmount', [scheduleIDs[0]]);
-    await vestingContract
-        .call<BigInt>('release', [scheduleIDs[0], releaseable]);
+  void release() async {
+    final BigInt releaseable = await vestingContract.call<BigInt>('computeReleasableAmount', [scheduleIDs[0]]);
+    await vestingContract.call<BigInt>('release', [scheduleIDs[0], releaseable]);
   }
 }

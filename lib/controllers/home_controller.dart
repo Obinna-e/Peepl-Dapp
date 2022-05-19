@@ -1,44 +1,54 @@
 import 'package:flutter_web3/flutter_web3.dart';
 import 'package:get/get.dart';
 
+import 'contract_controller.dart';
+
 class HomeController extends GetxController {
   static HomeController instance = Get.find();
 
-  bool get isEnabled => ethereum != null;
+  bool get isEnabled => ethereum != null; //isEnabled means if metamask is enabled
 
-  bool get isInOperatingChain => currentChain == OPERATING_CHAIN;
+  bool get isInOperatingChain =>
+      currentChain == OPERATING_CHAIN; //if the operating chain is the same as the chain of the current wallet
 
-  bool get isConnected => isEnabled && currentAddress.isNotEmpty;
+  bool get isConnected => isEnabled && currentAddress != null; //if enabled plus current address is not null.
 
-  String currentAddress = '';
+  final walletConnect = false.obs;
+
+  String? currentAddress;
   String displayAddress = '';
 
-  int currentChain = -1;
-  static const OPERATING_CHAIN = 122;
+  RxBool isLoading = false.obs;
 
-  connect() async {
+  int currentChain = -1;
+  static const OPERATING_CHAIN = 97;
+
+  Future<bool> connect() async {
     if (isEnabled) {
+      isLoading(true);
       final accs = await ethereum!.requestAccount();
       if (accs.isNotEmpty) currentAddress = accs.first;
+      Get.put(ContractController(currentAddress!), tag: "contractController");
       if (accs.isNotEmpty) {
-        displayAddress =
-            accs.first.substring(0, 5) + "..." + accs.first.substring(37, 41);
+        displayAddress = accs.first.substring(0, 5) + "..." + accs.first.substring(37, 41);
       }
-
       currentChain = await ethereum!.getChainId();
 
+      walletConnect(true);
       update();
     }
+    return Future.value(true);
   }
 
-  clear() {
+  void clear() {
     currentAddress = '';
     displayAddress = '';
     currentChain = -1;
     update();
   }
 
-  init() {
+  @override
+  void onInit() {
     if (isEnabled) {
       ethereum!.onAccountsChanged((accs) {
         clear();
@@ -48,11 +58,6 @@ class HomeController extends GetxController {
         clear();
       });
     }
-  }
-
-  @override
-  void onInit() {
-    init();
     super.onInit();
   }
 }
