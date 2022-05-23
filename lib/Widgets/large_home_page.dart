@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_web3/flutter_web3.dart';
 import 'package:get/get.dart';
 import 'package:nftapp/Widgets/customText.dart';
 import 'package:nftapp/Widgets/header.dart';
@@ -18,15 +17,8 @@ class LargeHomePage extends StatefulWidget {
 class _LargeHomePageState extends State<LargeHomePage> {
   late double itemHeight;
   late double itemWidth;
-  late HomeController _homeController;
-  late ContractController _contractController;
-
-  @override
-  void initState() {
-    _homeController = Get.put(HomeController());
-    //_contractController = Get.find()
-    super.initState();
-  }
+  HomeController homeController = Get.put(HomeController());
+  ContractController contractController = Get.put(ContractController());
 
   @override
   Widget build(BuildContext context) {

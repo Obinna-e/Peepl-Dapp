@@ -14,23 +14,8 @@ class SmallHomePage extends StatefulWidget {
 }
 
 class _SmallHomePageState extends State<SmallHomePage> {
-  late HomeController _homeController;
-  late ContractController _contractController;
-
-  @override
-  void initState() {
-    _homeController = Get.find();
-
-    try {
-      _contractController = Get.find(tag: "contractController");
-    } catch (e) {
-      _homeController.walletConnect.listen((isConnected) {
-        isConnected ? _contractController = Get.find(tag: "contractController") : null;
-      });
-    }
-
-    super.initState();
-  }
+  HomeController homeController = Get.put(HomeController());
+  ContractController contractController = Get.put(ContractController());
 
   @override
   Widget build(BuildContext context) {
@@ -49,7 +34,9 @@ class _SmallHomePageState extends State<SmallHomePage> {
                   const CustomText(text: 'Your Schedule Id'),
                   Obx(
                     () => CustomText(
-                      text: _homeController.walletConnect.value ? _contractController.currentScheduleID.value : "dumb",
+                      text: homeController.walletConnect.value
+                          ? contractController.currentScheduleID.value.toString()
+                          : "'No Vesting Schedule Detected'",
                       color: textColorBlack,
                     ),
                   ),
@@ -64,9 +51,9 @@ class _SmallHomePageState extends State<SmallHomePage> {
                   const CustomText(text: 'Vested Amount'),
                   Obx(
                     () => CustomText(
-                      text: _homeController.walletConnect.value
-                          ? _contractController.vestedTotal.value.toString()
-                          : "dumb",
+                      text: homeController.walletConnect.value
+                          ? '${contractController.vestedTotal.value.toString()} PPL (£####)'
+                          : "0 PPL (£####)",
                       color: textColorBlack,
                     ),
                   )
@@ -81,17 +68,17 @@ class _SmallHomePageState extends State<SmallHomePage> {
                   const CustomText(text: 'Fully Vested'),
                   Obx(
                     () => CustomText(
-                      text: _homeController.walletConnect.value
-                          ? _contractController.endTimeDays.value.toString()
-                          : "dumb",
+                      text: homeController.walletConnect.value
+                          ? '${contractController.endTimeDays.value.toString()} Days'
+                          : "0 Days",
                       color: Colors.black,
                     ),
                   ),
                   Obx(
                     () => CustomText2(
-                      text: _homeController.walletConnect.value
-                          ? _contractController.scheduleEnd.value.toString()
-                          : "dumb",
+                      text: homeController.walletConnect.value
+                          ? '${contractController.scheduleEnd.value.toString()} Days'
+                          : "0 Days",
                       color: textColorGrey,
                     ),
                   )
@@ -106,9 +93,9 @@ class _SmallHomePageState extends State<SmallHomePage> {
                   const CustomText(text: 'Withdrawable Amount'),
                   Obx(
                     () => CustomText(
-                      text: _homeController.walletConnect.value
-                          ? _contractController.currentAmountReleasable.value.toString()
-                          : "dumb",
+                      text: homeController.walletConnect.value
+                          ? '${contractController.currentAmountReleasable.value.toString()} PPL (£####)'
+                          : "0 PPL",
                       color: textColorBlack,
                     ),
                   )
@@ -123,15 +110,14 @@ class _SmallHomePageState extends State<SmallHomePage> {
                   const CustomText(text: 'Withdrawal Available in'),
                   Obx(
                     () => CustomText(
-                      text: _homeController.walletConnect.value
-                          ? _contractController.cliffEndDays.value.toString()
-                          : "dumb",
+                      text:
+                          homeController.walletConnect.value ? contractController.cliffEndDays.value.toString() : "No ",
                       color: textColorBlack,
                     ),
                   ),
                   Obx(
                     () => CustomText2(
-                      text: _homeController.walletConnect.value ? _contractController.cliff.value.toString() : "dumb",
+                      text: homeController.walletConnect.value ? contractController.cliff.value.toString() : "0 Days",
                       color: textColorGrey,
                     ),
                   )

@@ -2,15 +2,16 @@ import 'package:decimal/decimal.dart';
 import 'package:flutter_web3/flutter_web3.dart';
 import 'package:get/get.dart';
 import 'package:nftapp/constants/addresses.dart';
+import 'package:nftapp/controllers/home_controller.dart';
 
 import 'package:nftapp/helpers/abi.dart';
 import 'package:nftapp/helpers/dateTimeFormat.dart';
 import 'package:nftapp/helpers/decimal_handler.dart';
 
 class ContractController extends GetxController {
-  ContractController(this.currentWalletAddress);
+  HomeController homeController = Get.put(HomeController());
 
-  String currentWalletAddress;
+  String? currentWalletAddress;
 
   final vestingContract = Contract(VESTING_CONTRACT, Interface(abi), provider!.getSigner());
 
@@ -18,6 +19,8 @@ class ContractController extends GetxController {
   Rx<Decimal> currentAmountReleasable = Decimal.zero.obs;
 
   late DateTime scheduleStart;
+
+  String? displayScheduleID;
   Rx<DateTime> scheduleEnd = DateTime.now().obs;
   Rx<DateTime> cliff = DateTime.now().obs;
 
@@ -42,10 +45,10 @@ class ContractController extends GetxController {
   // bool revoked = true;
   // int scheduleCount = 0;
 
-  void getScheduleByAddressAndIndex({required int id, required String beneficaryAddress}) async {
+  void getScheduleByAddressAndIndex({required int index, required String beneficaryAddress}) async {
     isLoading = true;
 
-    final schedule = await vestingContract.call('getVestingScheduleByAddressAndIndex', [beneficaryAddress, id]);
+    final schedule = await vestingContract.call('getVestingScheduleByAddressAndIndex', [beneficaryAddress, index]);
 
     hasVestingSchedule = true;
 
@@ -83,12 +86,13 @@ class ContractController extends GetxController {
   }
 
   Future<List<String>> getUserVestingSchedulesList() async {
-    BigInt scheduleCount = await getUserVestingCount(currentWalletAddress);
+    BigInt scheduleCount = await getUserVestingCount(homeController.currentAddress.value);
+
     List<String> schedules = [];
 
     for (int i = 0; i < scheduleCount.toInt(); i++) {
       final vestingScheduleId = await vestingContract
-          .call('computeVestingScheduleIdForAddressAndIndex', [currentWalletAddress, BigInt.from(i)]);
+          .call('computeVestingScheduleIdForAddressAndIndex', [homeController.currentAddress, BigInt.from(i)]);
       schedules.add(vestingScheduleId);
     }
     return schedules;
@@ -106,13 +110,15 @@ class ContractController extends GetxController {
     try {
       final List<String> scheduleIDs = await getUserVestingSchedulesList();
 
+      displayScheduleID = scheduleIDs[0].substring(0, 5) + "..." + scheduleIDs[0].substring(61, 66);
+
       currentAmountReleasable(toDecimal(await computeAmountReleasable(scheduleIDs[0]), 18));
       isLoading = false;
       currentScheduleID(scheduleIDs[0].substring(0, 5) + "..." + scheduleIDs[0].substring(61, 66));
+
       update();
       return Future.value(true);
     } catch (error) {
-      print(error);
       return Future.value(false);
     }
   }

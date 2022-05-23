@@ -1,8 +1,6 @@
 import 'package:flutter_web3/flutter_web3.dart';
 import 'package:get/get.dart';
 
-import 'contract_controller.dart';
-
 class HomeController extends GetxController {
   static HomeController instance = Get.find();
 
@@ -11,12 +9,12 @@ class HomeController extends GetxController {
   bool get isInOperatingChain =>
       currentChain == OPERATING_CHAIN; //if the operating chain is the same as the chain of the current wallet
 
-  bool get isConnected => isEnabled && currentAddress != null; //if enabled plus current address is not null.
+  bool get isConnected => isEnabled && currentAddress.value.isNotEmpty; //if enabled plus current address is not null.
 
   final walletConnect = false.obs;
 
-  String? currentAddress;
-  String displayAddress = '';
+  final Rx<String> currentAddress = ''.obs;
+  final Rx<String> displayAddress = ''.obs;
 
   RxBool isLoading = false.obs;
 
@@ -27,10 +25,10 @@ class HomeController extends GetxController {
     if (isEnabled) {
       isLoading(true);
       final accs = await ethereum!.requestAccount();
-      if (accs.isNotEmpty) currentAddress = accs.first;
-      Get.put(ContractController(currentAddress!), tag: "contractController");
+      if (accs.isNotEmpty) currentAddress.value = accs.first;
+
       if (accs.isNotEmpty) {
-        displayAddress = accs.first.substring(0, 5) + "..." + accs.first.substring(37, 41);
+        displayAddress.value = accs.first.substring(0, 5) + "..." + accs.first.substring(37, 41);
       }
       currentChain = await ethereum!.getChainId();
 
@@ -41,8 +39,8 @@ class HomeController extends GetxController {
   }
 
   void clear() {
-    currentAddress = '';
-    displayAddress = '';
+    currentAddress.value = '';
+    displayAddress.value = '';
     currentChain = -1;
     update();
   }

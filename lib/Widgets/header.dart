@@ -41,46 +41,49 @@ class ConnectWallet extends StatefulWidget {
 }
 
 class _ConnectWalletState extends State<ConnectWallet> {
-  late HomeController _homeController;
-  late ContractController _contractController;
-
-  @override
-  void initState() {
-    _homeController = Get.put(HomeController());
-    super.initState();
-  }
+  HomeController homeController = Get.put(HomeController());
+  ContractController contractController = Get.put(ContractController());
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        _homeController.connect().then((value) {
-          _contractController = Get.find(tag: "contractController");
-          _contractController.getScheduleByAddressAndIndex(id: 0, beneficaryAddress: _homeController.currentAddress!);
-          _contractController.getSchedulesInfo();
-          _homeController.isLoading(false);
+        homeController.connect().then((value) {
+          final hasVested = contractController.getUserVestingCount(homeController.currentAddress.value);
+
+          if (hasVested != 0) {
+            contractController.getScheduleByAddressAndIndex(
+                index: 0, beneficaryAddress: homeController.currentAddress.value);
+            contractController.getSchedulesInfo();
+          }
+
+          homeController.isLoading(false);
         });
       },
       child: Obx(
         () => Container(
           padding: const EdgeInsets.all(defaultPadding * 0.75),
           decoration: BoxDecoration(
-            color: _homeController.isLoading.value ? textColorBlack : callToAction,
+            color: homeController.isLoading.value ? textColorBlack : callToAction,
             borderRadius: const BorderRadius.all(
               Radius.circular(10),
             ),
           ),
-          child: _homeController.isLoading.value
+          child: homeController.isLoading.value
               ? const CircularProgressIndicator(
                   color: callToAction,
                 )
               : Padding(
                   padding: const EdgeInsets.symmetric(horizontal: defaultPadding / 2),
-                  child: CustomText(
-                    text: _homeController.currentAddress ?? "Connect Wallet",
-                    color: Colors.white,
-                    size: 18,
-                  ),
+                  child: Obx(() {
+                    return CustomText(
+                      text: homeController.displayAddress.value.isEmpty
+                          ? "Connect Wallet"
+                          : homeController.displayAddress.value,
+                      color: Colors.white,
+                      size: 18,
+                    );
+                  }),
                 ),
         ),
       ),
