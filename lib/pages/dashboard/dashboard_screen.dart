@@ -18,10 +18,12 @@ class DashboardScreen extends StatelessWidget {
         body: Builder(
           builder: (_) {
             if (h.isEnabled) {
+              if (h.isConnected && !h.isInOperatingChain) {
+                return const Center(
+                    child: CustomText(text: 'Wrong Chain! Please connect to FUSE Network \nAnd Refresh'));
+              }
               return SingleChildScrollView(
-                  child: ResponsiveWidget.isSmallScreen(context) ? const SmallHomePage() : const LargeHomePage());
-            } else if (h.isConnected && !h.isInOperatingChain) {
-              return const Center(child: CustomText(text: 'Wrong Chain! Please connect to FUSE Network'));
+                  child: ResponsiveWidget.isSmallScreen(context) ? SmallHomePage() : const LargeHomePage());
             } else {
               return const Center(child: CustomText(text: 'Your browser is not Supported'));
             }

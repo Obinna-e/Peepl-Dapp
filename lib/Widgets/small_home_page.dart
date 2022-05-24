@@ -7,16 +7,11 @@ import 'package:nftapp/controllers/contract_controller.dart';
 import 'package:nftapp/controllers/home_controller.dart';
 import 'package:nftapp/helpers/dateTimeFormat.dart';
 
-class SmallHomePage extends StatefulWidget {
-  const SmallHomePage({Key? key}) : super(key: key);
+class SmallHomePage extends StatelessWidget {
+  SmallHomePage({Key? key}) : super(key: key);
 
-  @override
-  State<SmallHomePage> createState() => _SmallHomePageState();
-}
-
-class _SmallHomePageState extends State<SmallHomePage> {
-  HomeController homeController = Get.put(HomeController());
-  ContractController contractController = Get.put(ContractController());
+  final HomeController homeController = Get.put(HomeController());
+  final ContractController contractController = Get.put(ContractController());
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +32,7 @@ class _SmallHomePageState extends State<SmallHomePage> {
                     () => CustomText(
                       text: homeController.walletConnect.value
                           ? contractController.currentScheduleID.value.toString()
-                          : "'No Vesting Schedule Detected'",
+                          : '#####',
                       color: textColorBlack,
                     ),
                   ),
@@ -54,7 +49,7 @@ class _SmallHomePageState extends State<SmallHomePage> {
                     () => CustomText(
                       text: homeController.walletConnect.value
                           ? '${contractController.vestedTotal.value.toString()} PPL (£####)'
-                          : "0 PPL (£####)",
+                          : "##### PPL (£####)",
                       color: textColorBlack,
                     ),
                   )
@@ -71,7 +66,7 @@ class _SmallHomePageState extends State<SmallHomePage> {
                     () => CustomText(
                       text: homeController.walletConnect.value
                           ? '${contractController.endTimeDays.value.toString()} Days'
-                          : "0 Days",
+                          : "##### PPL (£####)",
                       color: Colors.black,
                     ),
                   ),
@@ -79,7 +74,7 @@ class _SmallHomePageState extends State<SmallHomePage> {
                     () => CustomText2(
                       text: homeController.walletConnect.value
                           ? dateFormatter(contractController.scheduleEnd.value)
-                          : "0 Days",
+                          : "YYYY-MM-DD",
                       color: textColorGrey,
                     ),
                   )
@@ -96,7 +91,7 @@ class _SmallHomePageState extends State<SmallHomePage> {
                     () => CustomText(
                       text: homeController.walletConnect.value
                           ? '${contractController.currentAmountReleasable.value.toString()} PPL (£####)'
-                          : "0 PPL",
+                          : "##### PPL (£####)",
                       color: textColorBlack,
                     ),
                   )
@@ -113,14 +108,15 @@ class _SmallHomePageState extends State<SmallHomePage> {
                     () => CustomText(
                       text: homeController.walletConnect.value
                           ? '${contractController.cliffEndDays.value.toString()} Days'
-                          : "No ",
+                          : "##### Days ",
                       color: textColorBlack,
                     ),
                   ),
                   Obx(
                     () => CustomText2(
-                      text:
-                          homeController.walletConnect.value ? dateFormatter(contractController.cliff.value) : "0 Days",
+                      text: homeController.walletConnect.value
+                          ? dateFormatter(contractController.cliff.value)
+                          : "YYYY-MM-DD",
                       color: textColorGrey,
                     ),
                   )

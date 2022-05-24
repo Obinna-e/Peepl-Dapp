@@ -6,14 +6,9 @@ import 'package:nftapp/controllers/contract_controller.dart';
 import 'package:nftapp/controllers/home_controller.dart';
 import 'package:nftapp/helpers/responsiveness.dart';
 
-class Header extends StatefulWidget {
+class Header extends StatelessWidget {
   const Header({Key? key}) : super(key: key);
 
-  @override
-  State<Header> createState() => _HeaderState();
-}
-
-class _HeaderState extends State<Header> {
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -27,35 +22,31 @@ class _HeaderState extends State<Header> {
         SizedBox(
           width: !ResponsiveWidget.isSmallScreen(context) ? itemPadding + 80 : itemPadding - 80,
         ),
-        const ConnectWallet(),
+        ConnectWallet(),
       ],
     );
   }
 }
 
-class ConnectWallet extends StatefulWidget {
-  const ConnectWallet({Key? key}) : super(key: key);
+class ConnectWallet extends StatelessWidget {
+  ConnectWallet({Key? key}) : super(key: key);
 
-  @override
-  State<ConnectWallet> createState() => _ConnectWalletState();
-}
-
-class _ConnectWalletState extends State<ConnectWallet> {
-  HomeController homeController = Get.put(HomeController());
-  ContractController contractController = Get.put(ContractController());
+  final HomeController homeController = Get.put(HomeController());
+  final ContractController contractController = Get.put(ContractController());
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
         homeController.connect().then((value) async {
-          final hasVested = await contractController.getUserVestingCount(homeController.currentAddress.value);
-          // print(hasVested);
-
-          if (hasVested != BigInt.zero) {
-            contractController.getScheduleByAddressAndIndex(
-                index: 0, beneficaryAddress: homeController.currentAddress.value);
-            contractController.getSchedulesInfo();
+          if (homeController.isInOperatingChain) {
+            final hasVested = await contractController.getUserVestingCount(homeController.currentAddress.value);
+            // print(hasVested);
+            if (hasVested != BigInt.zero) {
+              contractController.getScheduleByAddressAndIndex(
+                  index: 0, beneficaryAddress: homeController.currentAddress.value);
+              contractController.getSchedulesInfo();
+            }
           }
 
           homeController.isLoading(false);

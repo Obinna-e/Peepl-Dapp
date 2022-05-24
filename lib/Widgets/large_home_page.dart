@@ -37,7 +37,7 @@ class _LargeHomePageState extends State<LargeHomePage> {
               children: const [
                 CustomText(text: 'Your Schedule Id'),
                 CustomText(
-                  text: " _contractController.currentScheduleID",
+                  text: "#####",
                   color: textColorBlack,
                 )
               ],

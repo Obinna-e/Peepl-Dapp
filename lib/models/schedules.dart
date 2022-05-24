@@ -17,15 +17,15 @@ class Schedules {
     required this.cliffDateTime,
   });
 
-  factory Schedules.fromTuple(List schedule, int index) {
-    return Schedules(
-      scheduleID: schedule[index] ?? 'No Vesting Schedule Found',
-      vestedAmount: schedule[index] ?? '##### PPL (£####)',
-      fullyVestedDays: schedule[index] ?? '##### Days',
-      fullyVestedDateTime: schedule[index] ?? 'YYYY-MM-DD',
-      withdrawableAmount: schedule[index] ?? '##### PPL (£####)',
-      cliffEndDays: schedule[index] ?? '##### Days',
-      cliffDateTime: schedule[index] ?? 'YYYY-MM-DD',
-    );
-  }
+  // factory Schedules.fromTuple(List schedule, int index) {
+  //   return Schedules(
+  //     scheduleID: schedule[index] ?? 'No Vesting Schedule Found',
+  //     vestedAmount: schedule[index] ?? '##### PPL (£####)',
+  //     fullyVestedDays: schedule[index] ?? '##### Days',
+  //     fullyVestedDateTime: schedule[index] ?? 'YYYY-MM-DD',
+  //     withdrawableAmount: schedule[index] ?? '##### PPL (£####)',
+  //     cliffEndDays: schedule[index] ?? '##### Days',
+  //     cliffDateTime: schedule[index] ?? 'YYYY-MM-DD',
+  //   );
+  // }
 }

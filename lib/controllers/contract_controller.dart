@@ -7,9 +7,12 @@ import 'package:nftapp/controllers/home_controller.dart';
 import 'package:nftapp/helpers/abi.dart';
 import 'package:nftapp/helpers/dateTimeFormat.dart';
 import 'package:nftapp/helpers/decimal_handler.dart';
+import 'package:nftapp/models/schedules.dart';
 
 class ContractController extends GetxController {
   HomeController homeController = Get.put(HomeController());
+
+  List<Schedules> vestingSchedules = <Schedules>[];
 
   String? currentWalletAddress;
 
@@ -49,8 +52,6 @@ class ContractController extends GetxController {
     isLoading = true;
 
     final schedule = await vestingContract.call('getVestingScheduleByAddressAndIndex', [beneficaryAddress, index]);
-
-    hasVestingSchedule = true;
 
     scheduleStart = readTimeStampToDate(
       int.parse(
@@ -110,8 +111,6 @@ class ContractController extends GetxController {
   Future<bool> getSchedulesInfo() async {
     try {
       final List<String> scheduleIDs = await getUserVestingSchedulesList();
-
-      displayScheduleID = scheduleIDs[0].substring(0, 5) + "..." + scheduleIDs[0].substring(61, 66);
 
       currentAmountReleasable(toDecimal(await computeAmountReleasable(scheduleIDs[0]), 18));
       isLoading = false;
