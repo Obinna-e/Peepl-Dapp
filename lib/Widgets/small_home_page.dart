@@ -5,6 +5,7 @@ import 'package:nftapp/Widgets/header.dart';
 import 'package:nftapp/constants/style.dart';
 import 'package:nftapp/controllers/contract_controller.dart';
 import 'package:nftapp/controllers/home_controller.dart';
+import 'package:nftapp/helpers/dateTimeFormat.dart';
 
 class SmallHomePage extends StatefulWidget {
   const SmallHomePage({Key? key}) : super(key: key);
@@ -77,7 +78,7 @@ class _SmallHomePageState extends State<SmallHomePage> {
                   Obx(
                     () => CustomText2(
                       text: homeController.walletConnect.value
-                          ? '${contractController.scheduleEnd.value.toString()} Days'
+                          ? dateFormatter(contractController.scheduleEnd.value)
                           : "0 Days",
                       color: textColorGrey,
                     ),
@@ -110,14 +111,16 @@ class _SmallHomePageState extends State<SmallHomePage> {
                   const CustomText(text: 'Withdrawal Available in'),
                   Obx(
                     () => CustomText(
-                      text:
-                          homeController.walletConnect.value ? contractController.cliffEndDays.value.toString() : "No ",
+                      text: homeController.walletConnect.value
+                          ? '${contractController.cliffEndDays.value.toString()} Days'
+                          : "No ",
                       color: textColorBlack,
                     ),
                   ),
                   Obx(
                     () => CustomText2(
-                      text: homeController.walletConnect.value ? contractController.cliff.value.toString() : "0 Days",
+                      text:
+                          homeController.walletConnect.value ? dateFormatter(contractController.cliff.value) : "0 Days",
                       color: textColorGrey,
                     ),
                   )

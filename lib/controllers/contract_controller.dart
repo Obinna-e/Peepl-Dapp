@@ -92,14 +92,15 @@ class ContractController extends GetxController {
 
     for (int i = 0; i < scheduleCount.toInt(); i++) {
       final vestingScheduleId = await vestingContract
-          .call('computeVestingScheduleIdForAddressAndIndex', [homeController.currentAddress, BigInt.from(i)]);
+          .call('computeVestingScheduleIdForAddressAndIndex', [homeController.currentAddress.value, BigInt.from(i)]);
       schedules.add(vestingScheduleId);
     }
+
     return schedules;
   }
 
   Future<BigInt> getUserVestingCount(String beneficiary) async {
-    return vestingContract.call('getVestingSchedulesCountByBeneficiary', [beneficiary]);
+    return await vestingContract.call<BigInt>('getVestingSchedulesCountByBeneficiary', [beneficiary]);
   }
 
   Future<BigInt> computeAmountReleasable(String id) async {

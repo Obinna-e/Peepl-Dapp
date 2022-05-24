@@ -48,10 +48,11 @@ class _ConnectWalletState extends State<ConnectWallet> {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        homeController.connect().then((value) {
-          final hasVested = contractController.getUserVestingCount(homeController.currentAddress.value);
+        homeController.connect().then((value) async {
+          final hasVested = await contractController.getUserVestingCount(homeController.currentAddress.value);
+          // print(hasVested);
 
-          if (hasVested != 0) {
+          if (hasVested != BigInt.zero) {
             contractController.getScheduleByAddressAndIndex(
                 index: 0, beneficaryAddress: homeController.currentAddress.value);
             contractController.getSchedulesInfo();
