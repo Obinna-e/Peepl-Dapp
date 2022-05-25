@@ -116,6 +116,7 @@ class ContractController extends GetxController {
       cliffDateTime: dateFormatter(cliff.value),
       isRevoked: isRevoked.value,
     ));
+
     update();
   }
 

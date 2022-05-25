@@ -5,16 +5,12 @@ import 'package:nftapp/Widgets/header.dart';
 import 'package:nftapp/constants/style.dart';
 import 'package:nftapp/controllers/contract_controller.dart';
 import 'package:nftapp/controllers/home_controller.dart';
+import 'package:nftapp/helpers/dateTimeFormat.dart';
 import 'package:nftapp/helpers/responsiveness.dart';
 
-class LargeHomePage extends StatefulWidget {
-  const LargeHomePage({Key? key}) : super(key: key);
+class LargeHomePage extends StatelessWidget {
+  LargeHomePage({Key? key}) : super(key: key);
 
-  @override
-  State<LargeHomePage> createState() => _LargeHomePageState();
-}
-
-class _LargeHomePageState extends State<LargeHomePage> {
   late double itemHeight;
   late double itemWidth;
   HomeController homeController = Get.put(HomeController());
@@ -34,63 +30,89 @@ class _LargeHomePageState extends State<LargeHomePage> {
           padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width * 0.2),
           children: [
             Column(
-              children: const [
-                CustomText(text: 'Your Schedule Id'),
-                CustomText(
-                  text: "#####",
-                  color: textColorBlack,
-                )
+              children: [
+                const CustomText(text: 'Your Schedule Id'),
+                Obx(
+                  () => CustomText(
+                    text: homeController.walletConnect.value
+                        ? contractController.currentScheduleID.value.toString()
+                        : '#####',
+                    color: textColorBlack,
+                  ),
+                ),
               ],
             ),
             const SizedBox(
               height: 2,
             ),
             Column(
-              children: const [
-                CustomText(text: 'Vested Amount'),
-                CustomText(
-                  text: '##### PPL (£####)',
-                  color: textColorBlack,
-                ),
+              children: [
+                const CustomText(text: 'Vested Amount'),
+                Obx(
+                  () => CustomText(
+                    text: homeController.walletConnect.value
+                        ? '${contractController.vestedTotal.value.toString()} PPL (£####)'
+                        : "##### PPL (£####)",
+                    color: textColorBlack,
+                  ),
+                )
               ],
             ),
             Column(
-              children: const [
-                CustomText(text: 'Fully Vested'),
-                CustomText(
-                  text: '##### Days',
-                  color: Colors.black,
-                ),
-                Expanded(
-                  child: CustomText2(
-                    text: 'YYYY-MM-DD',
-                    color: textColorGrey,
+              children: [
+                const CustomText(text: 'Fully Vested'),
+                Obx(
+                  () => CustomText(
+                    text: homeController.walletConnect.value
+                        ? '${contractController.endTimeDays.value.toString()} Days'
+                        : "##### PPL (£####)",
+                    color: Colors.black,
                   ),
                 ),
-              ],
-            ),
-            Column(
-              children: const [
-                CustomText(text: 'Withdrawable Amount'),
-                CustomText(
-                  text: '##### PPL (£####)',
-                  color: textColorBlack,
-                ),
-              ],
-            ),
-            Column(
-              children: const [
-                CustomText(text: 'Withdrawal Available in'),
-                CustomText(
-                  text: '##### Days',
-                  color: textColorBlack,
-                ),
                 Expanded(
-                  child: CustomText2(
-                    text: 'YYYY-MM-DD',
+                    child: Obx(
+                  () => CustomText2(
+                    text: homeController.walletConnect.value
+                        ? dateFormatter(contractController.scheduleEnd.value)
+                        : "YYYY-MM-DD",
                     color: textColorGrey,
                   ),
+                )),
+              ],
+            ),
+            Column(
+              children: [
+                const CustomText(text: 'Withdrawable Amount'),
+                Obx(
+                  () => CustomText(
+                    text: homeController.walletConnect.value
+                        ? '${contractController.currentAmountReleasable.value.toString()} PPL (£####)'
+                        : "##### PPL (£####)",
+                    color: textColorBlack,
+                  ),
+                )
+              ],
+            ),
+            Column(
+              children: [
+                const CustomText(text: 'Withdrawal Available in'),
+                Obx(
+                  () => CustomText(
+                    text: homeController.walletConnect.value
+                        ? '${contractController.cliffEndDays.value.toString()} Days'
+                        : "##### Days ",
+                    color: textColorBlack,
+                  ),
                 ),
+                Expanded(
+                    child: Obx(
+                  () => CustomText2(
+                    text: homeController.walletConnect.value
+                        ? dateFormatter(contractController.cliff.value)
+                        : "YYYY-MM-DD",
+                    color: textColorGrey,
+                  ),
+                )),
               ],
             ),
           ],

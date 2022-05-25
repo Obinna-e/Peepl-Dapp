@@ -52,7 +52,7 @@ class SmallHomePage extends StatelessWidget {
                           : "##### PPL (£####)",
                       color: textColorBlack,
                     ),
-                  )
+                  ),
                 ],
               ),
               const SizedBox(
@@ -77,7 +77,7 @@ class SmallHomePage extends StatelessWidget {
                           : "YYYY-MM-DD",
                       color: textColorGrey,
                     ),
-                  )
+                  ),
                 ],
               ),
               const SizedBox(
@@ -94,7 +94,7 @@ class SmallHomePage extends StatelessWidget {
                           : "##### PPL (£####)",
                       color: textColorBlack,
                     ),
-                  )
+                  ),
                 ],
               ),
               const SizedBox(
@@ -119,7 +119,7 @@ class SmallHomePage extends StatelessWidget {
                           : "YYYY-MM-DD",
                       color: textColorGrey,
                     ),
-                  )
+                  ),
                 ],
               ),
             ],
