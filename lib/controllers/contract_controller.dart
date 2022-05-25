@@ -46,9 +46,17 @@ class ContractController extends GetxController {
 
   RxBool isRevoked = true.obs;
 
+  var incrementer = 0.obs;
+
   // BigInt withdrawableAmount = BigInt.zero;
 
   // int scheduleCount = 0;
+
+  @override
+  onInit() {
+    interval(incrementer, (_) => getSchedulesInfo(), time: const Duration(seconds: 10));
+    super.onInit();
+  }
 
   //SmartContract functions: Check assets/abi for usage
 
@@ -57,13 +65,18 @@ class ContractController extends GetxController {
       final List<String> scheduleIDs = await getUserVestingSchedulesList();
 
       currentAmountReleasable(toDecimal(await computeAmountReleasable(scheduleIDs[0]), 18));
+
       isLoading = false;
       currentScheduleID(scheduleIDs[0].substring(0, 5) + "..." + scheduleIDs[0].substring(61, 66));
+
+      isContractFullyVested = DateTime.now().compareTo(scheduleEnd.value) > 0 ? true : false;
 
       update();
       return Future.value(true);
     } catch (error) {
       return Future.value(false);
+    } finally {
+      incrementer.value++;
     }
   }
 
@@ -103,8 +116,6 @@ class ContractController extends GetxController {
 
     endTimeDays(daysBetweenInt(DateTime.now(), scheduleEnd.value));
     cliffEndDays(daysBetweenInt(DateTime.now(), cliff.value));
-
-    isContractFullyVested = DateTime.now().compareTo(scheduleEnd.value) > 0 ? true : false;
 
     vestingSchedules.add(Schedules(
       scheduleID: currentScheduleID.value.toString(),

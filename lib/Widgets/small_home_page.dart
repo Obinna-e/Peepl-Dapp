@@ -48,7 +48,7 @@ class SmallHomePage extends StatelessWidget {
                   Obx(
                     () => CustomText(
                       text: homeController.walletConnect.value
-                          ? '${contractController.vestedTotal.value.toString()} PPL (£####)'
+                          ? '${contractController.vestedTotal.value.toString()} PPL (£${(contractController.vestedTotal.value.toDouble() * 0.1).toString()})'
                           : "##### PPL (£####)",
                       color: textColorBlack,
                     ),
@@ -120,6 +120,14 @@ class SmallHomePage extends StatelessWidget {
                       color: textColorGrey,
                     ),
                   ),
+                  Center(
+                      child: !contractController.isRevoked.value && contractController.isContractFullyVested
+                          ? ElevatedButton(
+                              onPressed: () {},
+                              child: const CustomText(
+                                text: 'Withdraw',
+                              ))
+                          : Container())
                 ],
               ),
             ],

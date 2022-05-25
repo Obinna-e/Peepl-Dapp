@@ -51,7 +51,7 @@ class LargeHomePage extends StatelessWidget {
                 Obx(
                   () => CustomText(
                     text: homeController.walletConnect.value
-                        ? '${contractController.vestedTotal.value.toString()} PPL (£####)'
+                        ? '${contractController.vestedTotal.value.toString()} PPL (£${(contractController.vestedTotal.value.toDouble() * 0.1).toString()})'
                         : "##### PPL (£####)",
                     color: textColorBlack,
                   ),
