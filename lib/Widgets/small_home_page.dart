@@ -120,16 +120,43 @@ class SmallHomePage extends StatelessWidget {
                       color: textColorGrey,
                     ),
                   ),
-                  Center(
-                      child: !contractController.isRevoked.value && contractController.isContractFullyVested
-                          ? ElevatedButton(
-                              onPressed: () {},
-                              child: const CustomText(
-                                text: 'Withdraw',
-                              ))
-                          : Container())
                 ],
               ),
+              const SizedBox(
+                height: 5,
+              ),
+              Obx(
+                () => Center(
+                    child: contractController.currentAmountReleasable.value == contractController.vestedTotal.value &&
+                            contractController.isContractFullyVested
+                        ? InkWell(
+                            onTap: () {
+                              try {
+                                contractController.release();
+                              } finally {
+                                contractController.getScheduleByAddressAndIndex(
+                                    index: 0, beneficaryAddress: homeController.currentAddress.value);
+                              }
+                            },
+                            child: Container(
+                              padding: const EdgeInsets.all(defaultPadding * 0.75),
+                              decoration: const BoxDecoration(
+                                color: callToAction,
+                                borderRadius: BorderRadius.all(
+                                  Radius.circular(10),
+                                ),
+                              ),
+                              child: const Padding(
+                                  padding: EdgeInsets.symmetric(horizontal: defaultPadding / 2),
+                                  child: CustomText(
+                                    text: "Withdraw",
+                                    color: Colors.white,
+                                    size: 18,
+                                  )),
+                            ),
+                          )
+                        : Container()),
+              )
             ],
           ),
         )

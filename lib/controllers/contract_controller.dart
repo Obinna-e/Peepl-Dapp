@@ -19,7 +19,7 @@ class ContractController extends GetxController {
   final vestingContract = Contract(VESTING_CONTRACT, Interface(abi), provider!.getSigner());
 
   bool hasVestingSchedule = false;
-  Rx<Decimal> currentAmountReleasable = Decimal.zero.obs;
+  Rx<Decimal> currentAmountReleasable = Decimal.one.obs;
 
   late DateTime scheduleStart;
 
@@ -62,7 +62,7 @@ class ContractController extends GetxController {
 
   Future<bool> getSchedulesInfo() async {
     try {
-      final List<String> scheduleIDs = await getUserVestingSchedulesList();
+      scheduleIDs = await getUserVestingSchedulesList();
 
       currentAmountReleasable(toDecimal(await computeAmountReleasable(scheduleIDs[0]), 18));
 
@@ -86,7 +86,7 @@ class ContractController extends GetxController {
     await getSchedulesInfo();
 
     final schedule = await vestingContract.call('getVestingScheduleByAddressAndIndex', [beneficaryAddress, index]);
-
+    print(schedule);
     isRevoked(schedule[9]);
 
     scheduleStart = readTimeStampToDate(
@@ -155,6 +155,7 @@ class ContractController extends GetxController {
 
   void release() async {
     final BigInt releaseable = await vestingContract.call<BigInt>('computeReleasableAmount', [scheduleIDs[0]]);
+
     await vestingContract.call<BigInt>('release', [scheduleIDs[0], releaseable]);
   }
 }
