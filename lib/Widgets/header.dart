@@ -45,7 +45,6 @@ class ConnectWallet extends StatelessWidget {
             if (hasVested != BigInt.zero) {
               contractController.getScheduleByAddressAndIndex(
                   index: 0, beneficaryAddress: homeController.currentAddress.value);
-              contractController.getSchedulesInfo();
             }
           }
 

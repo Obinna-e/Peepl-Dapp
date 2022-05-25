@@ -6,6 +6,7 @@ class Schedules {
   final String? withdrawableAmount;
   final String? cliffEndDays;
   final String? cliffDateTime;
+  final bool? isRevoked;
 
   Schedules({
     required this.scheduleID,
@@ -15,6 +16,7 @@ class Schedules {
     required this.withdrawableAmount,
     required this.cliffEndDays,
     required this.cliffDateTime,
+    required this.isRevoked,
   });
 
   // factory Schedules.fromTuple(List schedule, int index) {

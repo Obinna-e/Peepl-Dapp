@@ -44,14 +44,37 @@ class ContractController extends GetxController {
 
   RxString currentScheduleID = "".obs;
 
+  RxBool isRevoked = true.obs;
+
   // BigInt withdrawableAmount = BigInt.zero;
-  // bool revoked = true;
+
   // int scheduleCount = 0;
+
+  //SmartContract functions: Check assets/abi for usage
+
+  Future<bool> getSchedulesInfo() async {
+    try {
+      final List<String> scheduleIDs = await getUserVestingSchedulesList();
+
+      currentAmountReleasable(toDecimal(await computeAmountReleasable(scheduleIDs[0]), 18));
+      isLoading = false;
+      currentScheduleID(scheduleIDs[0].substring(0, 5) + "..." + scheduleIDs[0].substring(61, 66));
+
+      update();
+      return Future.value(true);
+    } catch (error) {
+      return Future.value(false);
+    }
+  }
 
   void getScheduleByAddressAndIndex({required int index, required String beneficaryAddress}) async {
     isLoading = true;
 
+    await getSchedulesInfo();
+
     final schedule = await vestingContract.call('getVestingScheduleByAddressAndIndex', [beneficaryAddress, index]);
+
+    isRevoked(schedule[9]);
 
     scheduleStart = readTimeStampToDate(
       int.parse(
@@ -83,6 +106,16 @@ class ContractController extends GetxController {
 
     isContractFullyVested = DateTime.now().compareTo(scheduleEnd.value) > 0 ? true : false;
 
+    vestingSchedules.add(Schedules(
+      scheduleID: currentScheduleID.value.toString(),
+      vestedAmount: vestedTotal.value.toString(),
+      fullyVestedDays: endTimeDays.value.toString(),
+      fullyVestedDateTime: dateFormatter(scheduleEnd.value),
+      withdrawableAmount: currentAmountReleasable.value.toString(),
+      cliffEndDays: cliffEndDays.value.toString(),
+      cliffDateTime: dateFormatter(cliff.value),
+      isRevoked: isRevoked.value,
+    ));
     update();
   }
 
@@ -106,21 +139,6 @@ class ContractController extends GetxController {
 
   Future<BigInt> computeAmountReleasable(String id) async {
     return await vestingContract.call<BigInt>('computeReleasableAmount', [id]);
-  }
-
-  Future<bool> getSchedulesInfo() async {
-    try {
-      final List<String> scheduleIDs = await getUserVestingSchedulesList();
-
-      currentAmountReleasable(toDecimal(await computeAmountReleasable(scheduleIDs[0]), 18));
-      isLoading = false;
-      currentScheduleID(scheduleIDs[0].substring(0, 5) + "..." + scheduleIDs[0].substring(61, 66));
-
-      update();
-      return Future.value(true);
-    } catch (error) {
-      return Future.value(false);
-    }
   }
 
   void release() async {
