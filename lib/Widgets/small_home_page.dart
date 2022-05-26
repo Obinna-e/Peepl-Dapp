@@ -90,7 +90,7 @@ class SmallHomePage extends StatelessWidget {
                   Obx(
                     () => CustomText(
                       text: homeController.walletConnect.value
-                          ? '${contractController.currentAmountReleasable.value.toString()} PPL (£####)'
+                          ? '${contractController.currentAmountReleasable.value.toString()} PPL (£${(contractController.currentAmountReleasable.value.toDouble() * 0.1).toString()})'
                           : "##### PPL (£####)",
                       color: textColorBlack,
                     ),

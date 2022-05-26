@@ -117,6 +117,9 @@ class ContractController extends GetxController {
     endTimeDays(daysBetweenInt(DateTime.now(), scheduleEnd.value));
     cliffEndDays(daysBetweenInt(DateTime.now(), cliff.value));
 
+    cliffEndDays.value >= 0 ? cliffEndDays(daysBetweenInt(DateTime.now(), cliff.value)) : cliffEndDays(0);
+    endTimeDays.value >= 0 ? endTimeDays(daysBetweenInt(DateTime.now(), scheduleEnd.value)) : endTimeDays(0);
+
     vestingSchedules.add(Schedules(
       scheduleID: currentScheduleID.value.toString(),
       vestedAmount: vestedTotal.value.toString(),
@@ -155,7 +158,10 @@ class ContractController extends GetxController {
 
   void release() async {
     final BigInt releaseable = await vestingContract.call<BigInt>('computeReleasableAmount', [scheduleIDs[0]]);
-
-    await vestingContract.call<BigInt>('release', [scheduleIDs[0], releaseable]);
+    try {
+      await vestingContract.call<BigInt>('release', [scheduleIDs[0], releaseable]);
+    } catch (e) {
+      print(e);
+    }
   }
 }
