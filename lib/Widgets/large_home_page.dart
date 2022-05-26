@@ -86,7 +86,7 @@ class LargeHomePage extends StatelessWidget {
                 Obx(
                   () => CustomText(
                     text: homeController.walletConnect.value
-                        ? '${contractController.currentAmountReleasable.value.toString()} PPL (£####)'
+                        ? '${contractController.currentAmountReleasable.value.toString()} PPL (£${(contractController.currentAmountReleasable.value.toDouble() * 0.1).toStringAsFixed(3)})'
                         : "##### PPL (£####)",
                     color: textColorBlack,
                   ),
@@ -116,6 +116,38 @@ class LargeHomePage extends StatelessWidget {
               ],
             ),
           ],
+        ),
+        Obx(
+          () => Center(
+              child: contractController.currentAmountReleasable.value == contractController.vestedTotal.value &&
+                      contractController.isContractFullyVested
+                  ? InkWell(
+                      onTap: () {
+                        try {
+                          contractController.release();
+                        } finally {
+                          contractController.getScheduleByAddressAndIndex(
+                              index: 0, beneficaryAddress: homeController.currentAddress.value);
+                        }
+                      },
+                      child: Container(
+                        padding: const EdgeInsets.all(defaultPadding * 0.75),
+                        decoration: const BoxDecoration(
+                          color: callToAction,
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(10),
+                          ),
+                        ),
+                        child: const Padding(
+                            padding: EdgeInsets.symmetric(horizontal: defaultPadding / 2),
+                            child: CustomText(
+                              text: "Withdraw",
+                              color: Colors.white,
+                              size: 18,
+                            )),
+                      ),
+                    )
+                  : Container()),
         ),
       ],
     );
