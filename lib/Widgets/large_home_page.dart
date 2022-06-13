@@ -51,8 +51,8 @@ class LargeHomePage extends StatelessWidget {
                 Obx(
                   () => CustomText(
                     text: homeController.walletConnect.value
-                        ? '${contractController.vestedTotal.value.toString()} PPL (£${(contractController.vestedTotal.value.toDouble() * 0.1).toString()})'
-                        : "##### PPL (£####)",
+                        ? '${contractController.vestedTotal.value.toString()} PPL'
+                        : "##### PPL",
                     color: textColorBlack,
                   ),
                 )
@@ -65,7 +65,7 @@ class LargeHomePage extends StatelessWidget {
                   () => CustomText(
                     text: homeController.walletConnect.value
                         ? '${contractController.endTimeDays.value.toString()} Days'
-                        : "##### PPL (£####)",
+                        : "##### PPL ",
                     color: Colors.black,
                   ),
                 ),
@@ -86,8 +86,8 @@ class LargeHomePage extends StatelessWidget {
                 Obx(
                   () => CustomText(
                     text: homeController.walletConnect.value
-                        ? '${contractController.currentAmountReleasable.value.toString()} PPL (£${(contractController.currentAmountReleasable.value.toDouble() * 0.1).toStringAsFixed(3)})'
-                        : "##### PPL (£####)",
+                        ? '${contractController.currentAmountReleasable.value.toString()} PPL'
+                        : "##### PPL",
                     color: textColorBlack,
                   ),
                 )
