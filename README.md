@@ -1,16 +1,10 @@
-# nftapp
+# Peepl Dapp
 
-A new Flutter project.
 
-## Getting Started
+A frontend for users to interact with our vesting smart contract
 
-This project is a starting point for a Flutter application.
+## How to run locally
+To run locally, make sure you have Flutter installed and simply run `flutter run`. This will launch the debug version of Chrome.
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## How to build for deployment
+In order to build for deployment (which basically runs dart2js and creates the HTML and CanvasKit layouts), simply run `flutter build web`. You can then serve this files from a static web server (as Flutter currently doesn't support SSR).
