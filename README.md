@@ -60,10 +60,6 @@ This dapp is from 2022. It still works, but a current rewrite would differ in se
 - **Tests.** Coverage was light. A current rewrite would have unit tests for the vesting calculation logic and widget tests for the claim flow.
 - **Internal package name.** `pubspec.yaml` still shows `name: nftapp` from when the project was scaffolded from another template. Cosmetic but worth fixing.
 
-## License
-
-(set as appropriate)
-
 ## Acknowledgements
 
 Built for the [Peepl](https://github.com/itsaboutpeepl) ecosystem, on the [Fuse network](https://www.fuse.io).
